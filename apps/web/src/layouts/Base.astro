@@ -31,7 +31,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- ?v=2 cache-buster: browsers cache favicons far beyond normal
+         asset caching, so the version param forces a re-fetch when the
+         mark changes (v2 = nerdy-glasses robot, 2026-11-10). Bump the
+         number on any future mark change. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <!-- llms.txt v2 recommendation (verified from llmstxt.org, retrieved
          2026-11-10): rel="describedby" points at the llms.txt file that
