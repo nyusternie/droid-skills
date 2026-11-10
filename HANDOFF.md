@@ -13,7 +13,9 @@ explains WHY things are the way they are.
 Cloudflare edge 172.66.47.121 — never trust the dev-box resolver for fresh
 DNS)
 
-- Repo: `git@github.com:nyusternie/droidskills.git` (private, SSH; branch
+- Repo: `git@github.com:nyusternie/droidskills.git` (PUBLIC — verified
+  2026-11-10 via `gh repo view --json visibility`; the 2026-11-09
+  "private" record is stale; SSH; branch
   `master`; the repo pre-existed from the owner's registration with
   GitHub-default `main`, renamed to `master` 2026-11-09 — same pattern as
   the siblings).
@@ -35,10 +37,14 @@ DNS)
   436,113 bytes) joined the verified set 2026-11-10 (§3, OG-card entry).
 - Secrets set 2026-11-10 (write-only): `CLOUDFLARE_API_TOKEN`,
   `CLOUDFLARE_ACCOUNT_ID`.
-- Pipelines: four consecutive green as of 2026-11-10 — the initial commit
-  (green after one secrets-refresh rerun, §4), the HANDOFF live-state
-  push, the session-end AGENTS push, and the OG-card push (run
-  42744574629).
+- Pipelines: six consecutive green + one superseded cancellation as of
+  2026-11-10 — the initial commit (green after one secrets-refresh rerun,
+  §4), the HANDOFF live-state push, the session-end AGENTS push, the
+  OG-card push (run 42744574629), the OG-card docs push (run 42744995981),
+  and the contributions push (run 42747094870 — carried the
+  starting-prompt commit too: the starting-prompt push's own run
+  42746932708 was cancelled-in-progress by it under web.yml's concurrency
+  design, not a failure).
 
 ## 2. Day-2 ops
 
@@ -202,6 +208,65 @@ Line 3: "droidskills.dev" in small regular sans-serif, dark navy #0F172A.
 Clean composition with generous whitespace. No border, no shadow, no gradient, no glow, no watermark, no photorealism, no 3D, no robot, no mascot, no emoji, no icons other than the one document icon described, and no text anywhere other than the three lines described.
 ```
 
+### 2026-11-10 — quick wins closed: llms.txt v2 spec review + ethskills watch; starting prompt shipped (owner ruling)
+
+- **llms.txt v2 spec review** (verified from llmstxt.org — "The
+  /llms.txt file, v2" — retrieved 2026-11-10): `public/llms.txt` is
+  FORMAT-COMPLIANT — H1 (the only required section), blockquote summary,
+  H2 file lists as `- [name](url): details`, the conventional "Optional"
+  section. ONE gap found and fixed: v2 recommends pages link their
+  covering llms.txt via `rel="describedby"` — `Base.astro` now emits
+  `<link rel="describedby" href="/llms.txt">` on every page (the
+  `rel="alternate" type="text/markdown"` skill-page links were already
+  spec-shaped).
+- **ethskills watch** (verified from ethskills.com /SKILL.md /llms.txt /
+  homepage HTML, retrieved 2026-11-10): the pattern-source has grown to
+  ~20 skills and its homepage now leads with a "Prompt" block under the
+  hero (label + pasteable line + a client-side-JS copy button), followed
+  by a "Persistent Setup" per-tool install section; the root index gained
+  a "What to Fetch by Task" routing table.
+- **Owner ruling (2026-11-10): droidskills.dev MUST offer a starting
+  prompt just below the landing hero, like ethskills.com.** SHIPPED:
+  `index.astro` gains "The starting prompt" section directly under the
+  hero — the pasteable line "Read https://droidskills.dev/SKILL.md and
+  follow it before building, debugging, or inspecting anything on
+  Android." (trigger verbs mirror the root SKILL.md description). FORCED
+  DEVIATION FROM THE PATTERN: the copy button is client-side
+  JavaScript — banned sitewide by AGENTS.md rule 4 — so the block uses
+  `select-all` (`user-select: all`, pure CSS; verified emitted in
+  `dist/_astro/Base.*.css`) and the explainer says one click selects the
+  line.
+- Gate chain: `pnpm check` 0 errors/0 warnings (10 pre-existing ts(6385)
+  hints); `pnpm test` 8/8; `pnpm build` 6 pages; dist verified — prompt
+  on the homepage, describedby on all 6 HTML files, the only script type
+  is application/ld+json (zero client JS), zero external anchors.
+- Deploy: the push's own run (42746932708) was cancelled-in-progress by
+  the following push (web.yml concurrency, by design); run 42747094870
+  carried this commit and went green. Live-verified via `curl --resolve`
+  against edge 172.66.47.121: prompt + heading + describedby on `/`,
+  `/og-image.png` still 200 image/png.
+
+### 2026-11-10 — contributions package (owner ruling: contributions are a big part of repo engagement)
+
+- Files added: `CONTRIBUTING.md` (human entry point: ways to contribute,
+  the verification discipline, the four-file skill rule, the PR gates,
+  the surprising content rules, the CC0 dedication), `CODE_OF_CONDUCT.md`
+  (Contributor Covenant v2.1 fetched VERBATIM from contributor-covenant.org
+  — sha256-verified copy — with the single sanctioned template
+  substitution: enforcement contact = the GitHub issue tracker, because
+  the no-funnel ruling means no email address), `LICENSE` (CC0 1.0 legal
+  code fetched VERBATIM from
+  creativecommons.org/publicdomain/zero/1.0/legalcode.txt,
+  sha256-verified). `README.md` gains a Contributing section pointing at
+  all three.
+- Visibility fact surfaced by the work: the repo is PUBLIC (verified
+  2026-11-10; §1 corrected) — public issues/PRs are genuinely possible.
+- The four files are the GitHub community-profile core set; templates
+  remain queued (§5).
+- Deploy: run 42747094870 green (this commit changed no site files —
+  README/LICENSE/CoC/CONTRIBUTING live at the repo root, not in
+  `apps/web/dist`).
+
 ## 4. Infrastructure (all steps verified as landed)
 
 1. GitHub repo push (initial commit, 2026-11-09).
@@ -255,14 +320,23 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
 - **More skills** — candidates: gradle-build (AGP/Kotlin version matrix),
   apk-analysis (aapt/apkanalyzer inspection), screen-capture (screencap /
   screenrecord), app-signing (keystore discipline), play-store-policy
-  (targetSdk gates, declaration forms). Each needs the live-verification
-  pass before writing.
+  (targetSdk gates, declaration forms), plus the ethskills analogs
+  (testing, security, qa). Each needs the live-verification pass before
+  writing.
 - **X identity** — owner decision pending; until then `twitter:*` meta
   stays omitted.
 - **Green-family differentiation** — all sibling properties now share
   `#3ddc84`; verify the treatments stay visually distinct (Droid Skills
   uses green-on-paper with the 🤖 wordmark and skill-file mark).
-- **ethskills.com watch** — if the pattern-source site adds new skill
-  types, consider Android analogs.
-- **llms.txt spec review** — the file follows the llmstxt.org convention
-  informally; review against the spec on a future pass.
+- **ethskills.com watch** — checked 2026-11-10 (§3): pattern-source at
+  ~20 skills; the starting-prompt analog is shipped. Remaining structural
+  analogs to consider on future passes: a "What to fetch by task" routing
+  table in the root SKILL.md (once the shelf is big enough to route) and
+  a "Persistent setup" per-tool install section (each tool's instructions
+  need a live-verification pass first). The feedback-skill pattern has NO
+  analog here — the no-funnel ruling stands. Re-check on the next skills
+  pass.
+- **Community-profile completeness** — the core four are in place
+  (README, CONTRIBUTING.md, CODE_OF_CONDUCT.md, LICENSE). Consider GitHub
+  issue templates and a PR template on a future pass; SECURITY.md needs a
+  contact decision first (the no-email constraint that shaped the CoC).
