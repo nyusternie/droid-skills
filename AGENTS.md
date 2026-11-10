@@ -194,8 +194,11 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
   bearing code slashes, Android green `#3ddc84`. Full-body/geometry-only:
   no typography composited in post.
 - Emoji prefix in the header wordmark: 🤖.
-- OG card: none yet — `og:image` and `twitter:*` meta are DELIBERATELY
-  omitted until this brand's own art exists (never reuse a sibling's art).
+- OG card: `apps/web/public/og-image.png` — the skill-file mark beside
+  the wordmark, tagline and URL on paper (generated 2026-11-10 via the
+  image-generation skill; provenance + QA in HANDOFF.md §3). `og:image`
+  meta is restored in `Base.astro`; `twitter:*` meta stays omitted until
+  this brand has an X identity (never reuse a sibling's art).
 
 ## SEO
 

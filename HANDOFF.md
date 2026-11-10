@@ -31,12 +31,14 @@ DNS)
   `/SKILL.md` and all three `/<skill>/SKILL.md` served as
   `text/markdown; charset=utf-8`, `/llms.txt` as `text/plain` (the
   `_headers` rules work). Three skills live (owner ruling 2026-11-09):
-  `adb`, `android-versions`, `logcat`.
+  `adb`, `android-versions`, `logcat`. `/og-image.png` (200, image/png,
+  436,113 bytes) joined the verified set 2026-11-10 (§3, OG-card entry).
 - Secrets set 2026-11-10 (write-only): `CLOUDFLARE_API_TOKEN`,
   `CLOUDFLARE_ACCOUNT_ID`.
-- Pipelines: three consecutive green as of 2026-11-10 — the initial commit
+- Pipelines: four consecutive green as of 2026-11-10 — the initial commit
   (green after one secrets-refresh rerun, §4), the HANDOFF live-state
-  push, and the session-end AGENTS push.
+  push, the session-end AGENTS push, and the OG-card push (run
+  42744574629).
 
 ## 2. Day-2 ops
 
@@ -148,6 +150,58 @@ from alternate-format to first-class product.
   `pnpm build` 6 pages + 3 SKILL.md endpoints; emitted HTML carries ZERO
   external `<a href="http…">` anchors (policy satisfied by construction).
 
+### 2026-11-10 — OG card: this brand's own art (follow-up closed)
+
+- Mechanics: the image-generation skill (`~/.pi/agent/skills/image-generation`),
+  model `gemini-3-pro-image-preview`, ONE render ($0.1422, 2015 tokens —
+  cost discipline kept). Raw 1424x752 render staged at
+  `~/Downloads/droidskills-og-v1.jpg`, center-cropped to the exact
+  1200x630 og-image spec, shipped as `apps/web/public/og-image.png`
+  (436,113 bytes).
+- Composition: left, the favicon skill-file mark (document + folded
+  corner + code slashes, brand #3ddc84); right, the wordmark "Droid
+  Skills" (ink #0f172a), the tagline "Skill files for AI agents working
+  on Android" (text-safe accent #178247), and "droidskills.dev" (ink).
+  NO 🤖 in the art — AGENTS.md scopes the emoji prefix to the header
+  wordmark, and an emoji glyph is not OCR-verifiable.
+- QA (skill doctrine: no binaries in context, OCR programmatically):
+  tesseract on the full render and on the final crop — all three text
+  lines and the "</>" read back. The single ambiguity (tesseract read
+  "AI" as "Al") was resolved by connected-component glyph geometry on a
+  green-isolated bitmap: the render's font draws capital-I and
+  lowercase-l IDENTICALLY (the disputed bar is 11px wide / 47px tall;
+  the known-l glyphs in "Skill"/"files" are 11px wide / 46–48px tall,
+  areas within ±12). The reading is therefore OCR-inconclusive BY
+  CONSTRUCTION — no distinguishable defect exists. Final visual QA is
+  the owner eyeball via the live URL, per skill doctrine.
+- Wiring: `Base.astro` restores `og:image` + width/height/alt (absolute
+  URL via `Astro.site`, the same pattern as `canonical`); `twitter:*`
+  meta stays omitted — X identity still pending (§5).
+- Gate chain: `pnpm check` 0 errors/0 warnings (the 10 ts(6385) 'z is
+  deprecated' items in content.config.ts roll up under hints — astro
+  check display quirk, pre-existing on master); `pnpm test` 8/8;
+  `pnpm build` 6 pages; dist verified — og:image meta on all 6 HTML
+  pages, zero real twitter meta tags, the only http anchors are the
+  own-host skill cross-references (AGENTS.md rule 9 carve-out).
+- Deploy: run 42744574629, both jobs success; live-verified via
+  `curl --resolve` against edge 172.66.47.121 — `/og-image.png` 200
+  image/png 436,113B, the homepage serves all four og:image meta tags.
+- Verbatim generation prompt (the source art — derivatives are free),
+  staged as `~/Downloads/droidskills-og-v1.txt`:
+
+```text
+Flat vector-style Open Graph social card for a developer website. Aspect ratio: 1.91:1 wide landscape banner (1200x630). Solid cool off-white background #FAFCFF, perfectly flat, no texture.
+
+Left third, vertically centered: a large minimalist line-art icon of a single document file with a folded top-right corner, drawn with thick rounded uniform strokes in bright Android green #3DDC84, and centered inside the document a pair of angle-bracket code slashes "</>" drawn in the same green stroke style.
+
+Right two-thirds, left-aligned, vertically centered, three stacked lines of text:
+Line 1: "Droid Skills" in very bold modern geometric sans-serif, dark navy ink #0F172A.
+Line 2: "Skill files for AI agents working on Android" in medium-weight sans-serif, deep green #178247.
+Line 3: "droidskills.dev" in small regular sans-serif, dark navy #0F172A.
+
+Clean composition with generous whitespace. No border, no shadow, no gradient, no glow, no watermark, no photorealism, no 3D, no robot, no mascot, no emoji, no icons other than the one document icon described, and no text anywhere other than the three lines described.
+```
+
 ## 4. Infrastructure (all steps verified as landed)
 
 1. GitHub repo push (initial commit, 2026-11-09).
@@ -198,9 +252,6 @@ from alternate-format to first-class product.
 
 ## 5. Follow-ups (next-session queue)
 
-- **OG card** — this brand's own green skill-file card (the image-generation
-  skill's mechanics; never reuse sibling art). Then restore `og:image` meta
-  in `Base.astro`.
 - **More skills** — candidates: gradle-build (AGP/Kotlin version matrix),
   apk-analysis (aapt/apkanalyzer inspection), screen-capture (screencap /
   screenrecord), app-signing (keystore discipline), play-store-policy
