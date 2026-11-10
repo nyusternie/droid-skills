@@ -4,8 +4,8 @@ Historical decision log for the droidskills.dev build. The present-day
 authority for working on this repo is [AGENTS.md](AGENTS.md); this file
 explains WHY things are the way they are.
 
-> Sections marked **PENDING** describe work that was planned but not yet
-> verified at the time of writing — re-verify before relying on them.
+> All sections reflect the verified end-of-session state (2026-11-10 UTC);
+> anything that later changes is recorded here with its own dated entry.
 
 ---
 
