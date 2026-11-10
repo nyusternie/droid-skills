@@ -1,13 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
   <!-- Droid Skills mark: a green robot head — rounded-square face, two
-       antennae, wide-set bright eyes, a small smile — in Android green
-       #3ddc84 on ink. Owner ruling 2026-11-10: the favicon MUST be a green
-       robot (supersedes the 2026-11-09 skill-file mark). Same geometry as
+       antennae, wide-set bright eyes behind nerdy round GLASSES, a small
+       smile — in Android green #3ddc84 on ink. Owner ruling 2026-11-10:
+       the favicon MUST be a green robot (supersedes the 2026-11-09
+       skill-file mark); the nerdy glasses were added the same day (owner
+       ruling: nerdy persona, knowledge-legend vibes). Same geometry as
        src/components/Robot.astro. -->
   <path d="M21 18 14 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round"/>
   <path d="M43 18 50 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round"/>
   <rect x="8" y="16" width="48" height="40" rx="14" fill="#3ddc84"/>
   <circle cx="23" cy="34" r="5" fill="#0f172a"/>
   <circle cx="41" cy="34" r="5" fill="#0f172a"/>
+  <circle cx="23" cy="34" r="8" fill="none" stroke="#0f172a" stroke-width="3"/>
+  <circle cx="41" cy="34" r="8" fill="none" stroke="#0f172a" stroke-width="3"/>
+  <path d="M31 34h2" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M8 34h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
+  <path d="M49 34h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
   <path d="M25 45h14" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
 </svg>

@@ -3,6 +3,9 @@
 // SVG (same geometry as public/favicon.svg). Scales via the `class` prop.
 // Pass `animated` for the CSS-only bob/blink/antenna-wiggle defined in
 // global.css — the animations stay CSS-only (AGENTS.md rule 4).
+// Nerdy round GLASSES added 2026-11-10 (owner ruling: nerdy persona,
+// knowledge-legend vibes) — the glasses are static; only the eyes blink
+// behind them.
 interface Props {
   class?: string
   animated?: boolean
@@ -23,5 +26,10 @@ const { class: className = 'h-8 w-8', animated = false } = Astro.props
   <rect x="8" y="16" width="48" height="40" rx="14" fill="#3ddc84" />
   <circle class="robot-eye" cx="23" cy="34" r="5" fill="#0f172a" />
   <circle class="robot-eye" cx="41" cy="34" r="5" fill="#0f172a" />
+  <circle cx="23" cy="34" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
+  <circle cx="41" cy="34" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
+  <path d="M31 34h2" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+  <path d="M8 34h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+  <path d="M49 34h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
   <path d="M25 45h14" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
 </svg>
