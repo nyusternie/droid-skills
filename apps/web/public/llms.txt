@@ -1,6 +1,6 @@
 # Droid Skills
 
-> Skill files for AI agents working on Android — verified, dated corrections to stale model knowledge, fetchable over plain HTTP. Public domain (CC0 1.0).
+> Skill files for Android AI agents — verified, dated corrections to stale model knowledge, fetchable over plain HTTP. Public domain (CC0 1.0).
 
 ## Skills
 

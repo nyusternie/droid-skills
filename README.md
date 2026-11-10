@@ -1,8 +1,8 @@
 # Droid Skills
 
-![Droid Skills — skill files for AI agents working on Android](apps/web/public/og-image.png)
+![Droid Skills — skill files for Android AI agents](apps/web/public/og-image.png)
 
-Skill files for AI agents working on Android — verified, dated corrections
+Skill files for Android AI agents — verified, dated corrections
 to stale model knowledge, served over plain HTTP as SKILL.md files.
 Public domain (CC0 1.0). Live at https://droidskills.dev — the repo name
 itself is TLD-agnostic (`droidskills`; owner ruling 2026-11-10).
