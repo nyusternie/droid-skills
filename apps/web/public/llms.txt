@@ -10,5 +10,5 @@
 
 ## Optional
 
-- [Index skill](https://droidskills.dev/SKILL.md): the root SKILL.md, listing everything.
+- [Index skill](https://droidskills.dev/SKILL.md): the root SKILL.md — the full directory of all skills.
 - [About](https://droidskills.dev/about): the project, the verification discipline, the ground rules.

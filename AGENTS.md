@@ -13,7 +13,9 @@ The product is not the website — the product is a set of agent-consumable
 skill files in the SKILL.md convention (`name` + a "Use when…" trigger
 description), served over plain HTTP at stable URLs:
 
-- `https://droidskills.dev/SKILL.md` — the root index skill (hand-maintained)
+- `https://droidskills.dev/SKILL.md` — the root index skill AND the FULL
+  DIRECTORY of all skills (hand-maintained; owner ruling 2026-11-10 —
+  every published skill with its verbatim "Use when…" trigger)
 - `https://droidskills.dev/<skill>/SKILL.md` — one file per topic
 - `https://droidskills.dev/llms.txt` — the machine-readable catalog
 
