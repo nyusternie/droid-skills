@@ -1,0 +1,14 @@
+# Droid Skills
+
+> Skill files for AI agents working on Android — verified, dated corrections to stale model knowledge, fetchable over plain HTTP. Public domain (CC0 1.0).
+
+## Skills
+
+- [ADB](https://droidskills.dev/adb/SKILL.md): pairing, authorization, read-only device inspection.
+- [Android versions](https://droidskills.dev/android-versions/SKILL.md): current release and API-level map, dated and verified.
+- [Logcat](https://droidskills.dev/logcat/SKILL.md): capture, filter, triage device logs.
+
+## Optional
+
+- [Index skill](https://droidskills.dev/SKILL.md): the root SKILL.md, listing everything.
+- [About](https://droidskills.dev/about): the project, the verification discipline, the ground rules.

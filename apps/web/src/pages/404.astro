@@ -1,0 +1,19 @@
+---
+// src/pages/404.astro — the not-found page. Zero JavaScript.
+import Base from '../layouts/Base.astro'
+---
+
+<Base
+  title="404 — skill not found"
+  description="The page or skill you asked for is not on this shelf."
+>
+  <section class="container py-20 text-center">
+    <p class="mb-4 text-6xl">🤖</p>
+    <h1 class="mb-4 text-3xl font-extrabold">404 — skill not found</h1>
+    <p class="mb-8 text-lg muted">
+      The page or skill you asked for is not on this shelf. This site never redirects, so if you
+      followed an old link, the file is retired — the shelf is the current catalog.
+    </p>
+    <a href="/" class="btn no-underline">Back to the shelf</a>
+  </section>
+</Base>

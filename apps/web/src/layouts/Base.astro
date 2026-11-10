@@ -1,0 +1,71 @@
+---
+// src/layouts/Base.astro — sitewide shell: head meta (canonical, favicon),
+// header nav, footer. Zero JavaScript everywhere (AGENTS.md rule 4).
+// Page-specific JSON-LD is injected via the `schema` prop and MUST mirror
+// the visible copy.
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+  ogType?: 'website' | 'article'
+  schema?: Record<string, unknown>
+}
+
+const { title, description, ogType = 'website', schema } = Astro.props
+const fullTitle = title === 'Droid Skills' ? title : `${title} — Droid Skills`
+const canonical = new URL(Astro.url.pathname, Astro.site)
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Droid Skills" />
+    <!-- og:image is DELIBERATELY omitted until this brand's own card
+         exists — never reuse a sibling's art. twitter:* meta likewise:
+         no X identity exists for this site yet. -->
+
+    <slot name="head" />
+
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    <header class="border-b border-line">
+      <nav class="container flex items-center justify-between gap-4 py-4">
+        <a href="/" class="text-lg font-bold text-ink no-underline">
+          🤖 Droid Skills
+        </a>
+        <div class="flex items-center gap-5">
+          <a href="/#skills" class="font-semibold no-underline">Skills</a>
+          <a href="/SKILL.md" class="font-semibold no-underline">SKILL.md</a>
+          <a href="/about" class="font-semibold no-underline">About</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="mt-16 border-t border-line">
+      <div class="container py-8 text-sm muted">
+        <p>
+          Droid Skills · Skill files for AI agents working on Android —
+          public domain, no rights reserved (CC0 1.0).
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

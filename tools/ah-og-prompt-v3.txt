@@ -1,0 +1,5 @@
+Social share card (Open Graph banner) for "Android Harness — The Agency for Agentic Android". Aspect ratio: 1.91:1 wide landscape banner (1200x630).
+
+Background: cool off-white paper #FAFCFF. Left third: a rounded-corner square in Android green #3DDC84 containing an off-white #FAFCFF device-and-plug emblem (a rounded-rectangle smartphone outline with thick stroke, a small camera dot near the top, and a USB plug block at the bottom edge with a short cable stub extending downward). Right two-thirds: large bold headline "Android Harness" in deep slate ink #0F172A, modern grotesque sans-serif, left-aligned; beneath it a one-line tagline "The Agency for Agentic Android" in dark green #178247; and beneath that, smaller, in muted slate #64748B, the URL "droidskills.dev". A thin #E2E8F0 hairline frame inset from the edges.
+
+Flat vector editorial style — cool, precise, premium agency aesthetic. All lettering large, flat, crisp and perfectly legible. No watermark, no logos, no extra text, no words other than the headline, the tagline and the URL, no blue anywhere, no amber anywhere, no robot or mascot character, no gradients, no photography, no 3D render.

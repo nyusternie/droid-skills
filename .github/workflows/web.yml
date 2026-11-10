@@ -1,0 +1,91 @@
+# .github/workflows/web.yml — check → test:coverage → build → deploy gate.
+# Mirrors the rootmyandroid repo's pipeline, with two deliberate deviations
+# (see HANDOFF.md): runs on the self-hosted blackhost runner (the account is
+# billing-locked for GitHub-hosted runners — verified 2026-11-09), and no
+# Codecov upload (no CODECOV_TOKEN secret here).
+name: Web CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Lint, test & build
+    runs-on: [self-hosted, blackhost]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.21.0
+
+      # The runner's HOME is /home/gh-runner. pnpm's default store-dir lives
+      # under XDG paths, which makes actions/setup-node's `cache: pnpm`
+      # compute a cache path that does not exist (save/restore fails).
+      # Pin the store to a stable path so cache paths are real.
+      - name: Pin pnpm store path
+        run: pnpm config set store-dir /home/gh-runner/pnpm-store/ds
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check (pinned versions + astro check)
+        run: pnpm check
+
+      - name: Run tests with coverage
+        run: pnpm --filter droidskills-web test:coverage
+
+      - name: Build (static export)
+        run: pnpm --filter droidskills-web build
+
+  deploy:
+    name: Deploy to Cloudflare Pages
+    needs: test
+    # Deploy only from master, and only after check+tests+build pass.
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: [self-hosted, blackhost]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.21.0
+
+      - name: Pin pnpm store path
+        run: pnpm config set store-dir /home/gh-runner/pnpm-store/ds
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build (static export)
+        run: pnpm --filter droidskills-web build
+
+      # Mirrors rootmyandroid@master's live deploy step exactly (verified
+      # 2026-11-09 via gh api): v4 + packageManager pnpm + NO wranglerVersion
+      # — the repo-pinned wrangler (root devDependency) satisfies the action's
+      # version check, so its `pnpm add wrangler@…` auto-install path (which
+      # pnpm refuses with ERR_PNPM_ADDING_TO_ROOT) never runs.
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          packageManager: pnpm
+          command: pages deploy apps/web/dist --project-name droidskills --branch master

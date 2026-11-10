@@ -1,0 +1,58 @@
+---
+// src/pages/about.astro — what the site is, why it exists, the rules every
+// skill file follows, and what is deliberately absent. Zero JavaScript.
+import Base from '../layouts/Base.astro'
+---
+
+<Base
+  title="About"
+  description="What Droid Skills is, why it exists, and the rules every skill file follows."
+>
+  <section class="container py-10">
+    <h1 class="mb-6 text-3xl font-extrabold">About</h1>
+    <div class="skill-body">
+      <h2>What this is</h2>
+      <p>
+        Droid Skills is a skill-file server. The product is a set of SKILL.md files —
+        agent-consumable skill documents in the SKILL.md convention (a name plus a "Use when…"
+        trigger description), served over plain HTTP at stable URLs: <code>/SKILL.md</code> for the
+        index, <code>/&lt;skill&gt;/SKILL.md</code> for each topic. Humans get readable pages at the
+        same host; agents fetch the raw Markdown with the content-type set so both render
+        naturally. A machine-readable catalog also lives at <code>/llms.txt</code>.
+      </p>
+      <h2>Why it exists</h2>
+      <p>
+        Training-data staleness is the dominant failure mode for agents working on Android: the
+        platform ships a major release every year, and yesterday's facts become today's bugs. The
+        correction mechanism is a small set of dated, verified skill files that an agent fetches
+        before it acts. This site is fully independent — it does not link to, redirect to, or
+        borrow the reputation of any other site.
+      </p>
+      <h2>The rules every skill follows</h2>
+      <ol>
+        <li>
+          <strong>Dated facts only.</strong> Every time-sensitive claim names its retrieval date
+          and the source page it was verified against.
+        </li>
+        <li>
+          <strong>Unknown prints as unknown.</strong> If a fact cannot be verified, the skill says
+          so instead of guessing.
+        </li>
+        <li>
+          <strong>Read-only by default.</strong> Inspection skills never write to the device, never
+          request su, never destroy data.
+        </li>
+        <li>
+          <strong>Public domain.</strong> CC0 1.0 — no rights reserved. Take the files and serve
+          them to your own agents.
+        </li>
+      </ol>
+      <h2>What is not here</h2>
+      <p>
+        No accounts, no email addresses, no forms, no tracking, no ads, no JavaScript (owner ruling
+        2026-11-09: no email package — this satellite has no funnel at all). Sources are named in
+        plain text, not linked — an agent that can read the page can find the source.
+      </p>
+    </div>
+  </section>
+</Base>

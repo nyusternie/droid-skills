@@ -1,0 +1,21 @@
+{
+  "name": "droidskills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Android Harness — The Agency for Agentic Android: device-tested guides, agentic tooling, and profiles of the top Android harnesses.",
+  "scripts": {
+    "dev": "pnpm --filter droidskills-web dev",
+    "build": "pnpm --filter droidskills-web build",
+    "check": "node tools/check-pinned-versions.mjs && pnpm --filter droidskills-web check",
+    "lint": "pnpm --filter droidskills-web check",
+    "test": "pnpm -r test"
+  },
+  "engines": {
+    "node": ">=18.17.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@11.21.0",
+  "devDependencies": {
+    "wrangler": "4.151.0"
+  }
+}

@@ -1,0 +1,49 @@
+---
+// src/pages/[slug]/index.astro — the human page for one skill. The raw
+// agent-consumed file lives at /<slug>/SKILL.md (endpoint: SKILL.md.ts,
+// linked here via <link rel="alternate" type="text/markdown">).
+import { getCollection, render } from 'astro:content'
+import type { GetStaticPaths } from 'astro'
+import type { CollectionEntry } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import { withoutDrafts, formatDate } from '../../lib/skills'
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const skills = withoutDrafts(await getCollection('skills'))
+  return skills.map((skill) => ({ params: { slug: skill.id }, props: { skill } }))
+}
+
+const { skill } = Astro.props as { skill: CollectionEntry<'skills'> }
+const { Content } = await render(skill)
+// JSON-LD mirrors the visible copy exactly (AGENTS.md rule 7): the same
+// title, the same human summary, the same dates.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'TechArticle',
+  headline: skill.data.title,
+  description: skill.data.summary,
+  datePublished: skill.data.published.toISOString(),
+  ...(skill.data.updated && { dateModified: skill.data.updated.toISOString() }),
+  author: { '@type': 'Organization', name: 'Droid Skills' },
+}
+---
+
+<Base title={skill.data.title} description={skill.data.summary} ogType="article" schema={schema}>
+  <link slot="head" rel="alternate" type="text/markdown" href={`/${skill.id}/SKILL.md`} />
+  <section class="container py-10">
+    <p class="kicker">Skill file</p>
+    <h1 class="mb-2 text-3xl font-extrabold">{skill.data.title}</h1>
+    <p class="mb-6 muted text-sm">
+      Published {formatDate(skill.data.published)}{
+        skill.data.updated && <> · Updated {formatDate(skill.data.updated)}</>
+      }
+    </p>
+    <div class="card mb-8">
+      <p class="mb-2 text-sm font-bold">Fetch this skill (agents and humans alike):</p>
+      <pre class="pre">curl https://droidskills.dev/{skill.id}/SKILL.md</pre>
+    </div>
+    <article class="skill-body">
+      <Content />
+    </article>
+  </section>
+</Base>

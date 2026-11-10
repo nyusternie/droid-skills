@@ -1,0 +1,15 @@
+# public/_headers — Cloudflare Pages response headers. Serve the skill
+# files (public/SKILL.md + the prerendered src/pages/[slug]/SKILL.md.ts
+# endpoints) with the Markdown media type, and /llms.txt as plain text, for
+# LLM/agent consumers — do not rely on the hosting layer's extension map to
+# get .md right. NEW SKILLS: add the /<slug>/SKILL.md line below.
+/SKILL.md
+  content-type: text/markdown; charset=utf-8
+/adb/SKILL.md
+  content-type: text/markdown; charset=utf-8
+/android-versions/SKILL.md
+  content-type: text/markdown; charset=utf-8
+/logcat/SKILL.md
+  content-type: text/markdown; charset=utf-8
+/llms.txt
+  content-type: text/plain; charset=utf-8

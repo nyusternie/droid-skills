@@ -1,0 +1,5 @@
+# public/_redirects — Cloudflare Pages redirect rules (deployed with dist/).
+# Owner ruling 2026-11-09: NO redirect rules at all. Sneaky redirects are a
+# documented spam signal; this site never redirects anywhere. Retired pages
+# fall through to 404 naturally. (This site has never had a funnel or
+# legacy URLs to preserve.)

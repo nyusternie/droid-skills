@@ -1,0 +1,33 @@
+packages:
+  - 'apps/*'
+  - 'packages/*'
+
+# Approve dependency build scripts (esbuild's postinstall compiles its
+# binary). pnpm 11 requires BOTH the allowBuilds map and
+# onlyBuiltDependencies for a clean --frozen-lockfile install; otherwise CI
+# fails with ERR_PNPM_IGNORED_BUILDS.
+allowBuilds:
+  esbuild: true
+  # workerd's postinstall is not needed for `wrangler pages deploy`; setting
+  # it to false ACKNOWLEDGES the skipped script, which keeps a cold-store
+  # CI install from dying on ERR_PNPM_IGNORED_BUILDS (pnpm 11 makes
+  # strictDepBuilds fatal by default — verified 2026-11-09).
+  workerd: false
+onlyBuiltDependencies:
+  - esbuild
+
+# pnpm 11 reads overrides from here (not package.json).
+# @emnapi/runtime 2.0.0-beta.2 (a beta that fresh lockfiles resolve today)
+# crashes on import — `this.bridge.setLastError is not a function` — which
+# makes `astro check` report @astrojs/check as not installed. The sibling
+# rootmyandroid lockfile holds @astrojs/check against runtime 1.11.3 and
+# passes on this exact host, so the runtime is pinned to the proven version.
+overrides:
+  '@emnapi/runtime': 1.11.3
+
+# @astrojs/check 0.9.10 fails to resolve under pnpm's isolated (symlinked)
+# node_modules layout on this host — `astro check` reports the package as
+# not installed even though its symlink exists (verified 2026-11-09). The
+# sibling rootmyandroid repo runs the identical toolchain under a hoisted
+# layout without this failure, so this repo matches the proven layout.
+nodeLinker: hoisted

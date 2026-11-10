@@ -1,0 +1,80 @@
+/* src/styles/global.css — Tailwind v4 entry. The @theme block is the single
+   source of truth for design tokens; shared classes are composed with
+   @apply in @layer components. No other styling system exists on this
+   site (AGENTS.md rule 7). */
+
+@import 'tailwindcss';
+
+@theme {
+  /* Droid Skills palette: ANDROID GREEN (owner ruling 2026-11-09 —
+     #3ddc84, the Android brand green, verified from rootmyandroid's
+     AGENTS.md) on cool paper. #178247 is the same hue darkened for
+     text-safe contrast (4.73:1 on paper, derived 2026-11-09); bright
+     #3ddc84 is fills-only, never small text. The family shares this
+     green: rootmyandroid.com, agenticdroid.life, androidharness.com. */
+  --color-ink: #0f172a;
+  --color-paper: #fafcff;
+  --color-brand: #3ddc84;
+  --color-accent: #178247;
+  --color-line: #e2e8f0;
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+  a {
+    @apply text-accent underline decoration-line underline-offset-2 transition-colors hover:decoration-accent;
+  }
+}
+
+@layer components {
+  .container {
+    @apply mx-auto w-full max-w-3xl px-5;
+  }
+  .muted {
+    @apply text-slate-500;
+  }
+  .btn {
+    @apply inline-block rounded-lg border border-brand bg-brand px-4 py-2 font-semibold text-ink no-underline transition-colors hover:border-accent hover:bg-accent hover:text-white;
+  }
+  .btn-ghost {
+    @apply inline-block rounded-lg border border-line bg-white px-4 py-2 font-semibold text-accent no-underline transition-colors hover:border-accent;
+  }
+  .card {
+    @apply rounded-xl border border-line bg-white p-5;
+  }
+  .kicker {
+    @apply mb-2 text-sm font-bold tracking-widest text-accent uppercase;
+  }
+  /* Command/skill-file blocks — the product's aesthetic is the terminal. */
+  .pre {
+    @apply my-4 overflow-x-auto rounded-lg border border-line bg-slate-50 p-4 font-mono text-sm;
+  }
+  /* Long-form skill body (Markdown output). */
+  .skill-body h2 {
+    @apply mt-8 mb-3 text-2xl font-bold;
+  }
+  .skill-body h3 {
+    @apply mt-6 mb-2 text-xl font-bold;
+  }
+  .skill-body p {
+    @apply my-4 leading-relaxed;
+  }
+  .skill-body ul,
+  .skill-body ol {
+    @apply my-4 list-disc pl-6 leading-relaxed;
+  }
+  .skill-body ol {
+    @apply list-decimal;
+  }
+  .skill-body blockquote {
+    @apply my-4 border-l-4 border-brand pl-4 text-slate-600 italic;
+  }
+  .skill-body code {
+    @apply rounded bg-slate-100 px-1 py-0.5 text-sm;
+  }
+}
