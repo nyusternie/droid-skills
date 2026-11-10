@@ -54,10 +54,24 @@ email field anywhere on the site).
 ## Verified-at-a-glance (re-verify before relying — sources inline)
 
 - **Domain:** `droidskills.dev` — owner-registered 2026-11-09. Cloudflare
-  zone active in the rootmyandroid-dedicated account. Pages project
-  `droidskills` (production branch `master`); subdomain
-  `droidskills.pages.dev` — CLEAN and unsquatted (unlike the sibling
-  collisions on agenticdroidlife/androidharness).
+  zone active in the rootmyandroid-dedicated account (zone id
+  0b60065d403645711acf61917c5468dd). Pages project `droidskills`
+  (production branch `master`); subdomain `droidskills.pages.dev` — CLEAN
+  and unsquatted (unlike the sibling collisions on
+  agenticdroidlife/androidharness). Both custom domains (`droidskills.dev`,
+  `www.droidskills.dev`) `status=active` (verified 2026-11-10 UTC).
+- **Live (verified 2026-11-10 UTC via `curl --resolve` against Cloudflare
+  edge 172.66.47.121 — the dev-box resolver serves stale negatives for
+  fresh DNS):** all routes 200 — `/`, `/about/`, the three skill pages,
+  `/robots.txt`, the `www` host — and the product content-types are
+  correct: `/SKILL.md` + `/<skill>/SKILL.md` as
+  `text/markdown; charset=utf-8`, `/llms.txt` as `text/plain`.
+- **CI:** self-hosted runner `blackhost-ds` on the blackhost VPS, labels
+  `self-hosted,Linux,X64,blackhost` — the `blackhost` label is REQUIRED by
+  the workflow's `runs-on` (labels only; a runner without it comes online
+  but never picks up a job). Secrets `CLOUDFLARE_API_TOKEN` +
+  `CLOUDFLARE_ACCOUNT_ID` set 2026-11-10 (write-only, not retrievable).
+  Three consecutive green pipelines as of 2026-11-10 (HANDOFF.md §1).
 - **Platform facts verified during skill authoring (2026-11-09):**
   Android 17 = API 37 (developer.android.com/about/versions/17 live;
   /about/releases lists Android 11–17); developer.android.com/tools/logcat
@@ -146,10 +160,16 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
     files — full independence is the SEO-integrity stance. The siblings MAY
     be named in repo meta-docs (AGENTS.md, HANDOFF.md, commit messages) —
     provenance matters for future maintainers.
-11. **CI/deploy gotchas** are documented in HANDOFF.md (the `wranglerVersion`
-    pin trap, `allowBuilds`, the runner store-dir pin, and the runner-clone
-    rsync exclude list). Read them before touching `.github/workflows/` or
-    the runner.
+11. **CI/deploy gotchas** are documented in HANDOFF.md §4 — read them
+    before touching `.github/workflows/` or the runner. The standing list:
+    the `wranglerVersion` pin trap; `allowBuilds`/`onlyBuiltDependencies`;
+    the runner store-dir pin; the runner-clone rsync exclude list; **a
+    clone's `bin`/`externals` symlinks must resolve INSIDE its own root**
+    (cross-root symlinks make .NET operate on the source runner's config
+    state — the root cause behind the androidharness crash-loop);
+    `RUNNER_ALLOW_RUNASROOT=1` for root `config.sh`; the `blackhost` label
+    requirement; secrets snapshotted at run-creation time (rerun to
+    refresh).
 
 ## Content notes (skills)
 

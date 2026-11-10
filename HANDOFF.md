@@ -34,6 +34,9 @@ DNS)
   `adb`, `android-versions`, `logcat`.
 - Secrets set 2026-11-10 (write-only): `CLOUDFLARE_API_TOKEN`,
   `CLOUDFLARE_ACCOUNT_ID`.
+- Pipelines: three consecutive green as of 2026-11-10 — the initial commit
+  (green after one secrets-refresh rerun, §4), the HANDOFF live-state
+  push, and the session-end AGENTS push.
 
 ## 2. Day-2 ops
 
