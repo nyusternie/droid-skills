@@ -13,13 +13,15 @@ explains WHY things are the way they are.
 Cloudflare edge 172.66.47.121 — never trust the dev-box resolver for fresh
 DNS)
 
-- Repo: `git@github.com:nyusternie/droidskills.git` (rename REVERTED
-  2026-11-10 — owner ruling: the repo name stays TLD-agnostic because the
-  .dev TLD is not guaranteed permanent; the earlier same-day rename to
-  `droidskills.dev` is superseded — see the revert entry in §3; repo id
-  1451984060 preserved, both names redirect, runner `blackhost-ds`
-  verified online post-revert with all four required labels; PUBLIC —
-  re-verified 2026-11-10 via `gh api repos/nyusternie/droidskills`; the
+- Repo: `git@github.com:nyusternie/droid-skills.git` (renamed AGAIN
+  2026-11-10 — owner ruling, same day as the rename/revert arc:
+  `droidskills` → `droid-skills`; still TLD-agnostic per the 2026-11-10
+  ruling, now with the hyphen;
+  repo id 1451984060 preserved, the old name redirects (web + git —
+  `gh api repos/nyusternie/droidskills` follows to `droid-skills`,
+  `git ls-remote` on the old SSH URL exits 0), runner `blackhost-ds`
+  verified online post-rename with all four required labels; PUBLIC —
+  re-verified 2026-11-10 via `gh api repos/nyusternie/droid-skills`; the
   2026-11-09 "private" record is stale; SSH; branch
   `master`; the repo pre-existed from the owner's registration with
   GitHub-default `main`, renamed to `master` 2026-11-09 — same pattern as

@@ -84,9 +84,10 @@ email field anywhere on the site).
   but never picks up a job). Secrets `CLOUDFLARE_API_TOKEN` +
   `CLOUDFLARE_ACCOUNT_ID` set 2026-11-10 (write-only, not retrievable).
   Thirteen consecutive green pipelines (no failure conclusion ever) as of
-  2026-11-10 (HANDOFF.md §1). Runner + rename-revert verified 2026-11-10:
-  the repo is now `nyusternie/droidskills` again (TLD-agnostic — the .dev
-  TLD is not guaranteed permanent; site domain unchanged).
+  2026-11-10 (HANDOFF.md §1). Runner verified online through every rename
+  (2026-11-10 arc + the same-day re-rename): the repo is now
+  `nyusternie/droid-skills` (TLD-agnostic, hyphenated — the .dev TLD is
+  not guaranteed permanent; site domain unchanged).
 - **Platform facts verified during skill authoring (2026-11-09):**
   Android 17 = API 37 (developer.android.com/about/versions/17 live;
   /about/releases lists Android 11–17); developer.android.com/tools/logcat
