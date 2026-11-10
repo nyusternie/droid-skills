@@ -48,7 +48,8 @@ email field anywhere on the site).
 │       ├── src/lib/        # pure, fixture-tested helpers (skills.ts,
 │       │                   # skill-markdown.ts + *.test.js)
 │       └── public/         # SKILL.md, llms.txt, _headers, _redirects,
-│                           # robots.txt, favicon.svg, fonts/ (Orbitron)
+│                           # robots.txt, favicon.svg, fonts/ (Orbitron),
+│                           # js/copy.js (the ONE enhancement script, rule 4)
 ├── .github/workflows/web.yml   # CI + Cloudflare Pages deploy gate
 ├── pnpm-workspace.yaml     # nodeLinker hoisted + overrides + allowBuilds
 └── package.json            # root scripts only; private, no publish
@@ -69,16 +70,23 @@ email field anywhere on the site).
   `www.droidskills.dev`) `status=active` (verified 2026-11-10 UTC).
 - **Live (verified 2026-11-10 UTC via `curl --resolve` against Cloudflare
   edge 172.66.47.121 — the dev-box resolver serves stale negatives for
-  fresh DNS):** all routes 200 — `/`, `/about/`, the three skill pages,
-  `/robots.txt`, the `www` host — and the product content-types are
-  correct: `/SKILL.md` + `/<skill>/SKILL.md` as
+  fresh DNS):** all routes 200 — `/`, `/about/`, `/skills/`, the three
+  skill pages, `/robots.txt`, the `www` host — and the product
+  content-types are correct: `/SKILL.md` + `/<skill>/SKILL.md` as
   `text/markdown; charset=utf-8`, `/llms.txt` as `text/plain`.
+  Branding-pass additions, same method and date: `/favicon.svg` (200
+  `image/svg+xml` — the green robot), `/fonts/orbitron-latin-800.woff2`
+  (200 `font/woff2`), `/js/copy.js` (200 `application/javascript` — the
+  one enhancement script, rule 4).
 - **CI:** self-hosted runner `blackhost-ds` on the blackhost VPS, labels
   `self-hosted,Linux,X64,blackhost` — the `blackhost` label is REQUIRED by
   the workflow's `runs-on` (labels only; a runner without it comes online
   but never picks up a job). Secrets `CLOUDFLARE_API_TOKEN` +
   `CLOUDFLARE_ACCOUNT_ID` set 2026-11-10 (write-only, not retrievable).
-  Three consecutive green pipelines as of 2026-11-10 (HANDOFF.md §1).
+  Thirteen consecutive green pipelines (no failure conclusion ever) as of
+  2026-11-10 (HANDOFF.md §1). Runner + rename-revert verified 2026-11-10:
+  the repo is now `nyusternie/droidskills` again (TLD-agnostic — the .dev
+  TLD is not guaranteed permanent; site domain unchanged).
 - **Platform facts verified during skill authoring (2026-11-09):**
   Android 17 = API 37 (developer.android.com/about/versions/17 live;
   /about/releases lists Android 11–17); developer.android.com/tools/logcat
@@ -192,6 +200,9 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
 - The three launch skills (owner ruling 2026-11-09): `adb` (pairing /
   authorization / read-only inspection), `android-versions` (the
   API-level landscape), `logcat` (capture / filter / triage).
+- **Next session (owner confirmed 2026-11-10): start adding NEW skills**
+  — the candidates and the required live-verification pass are queued in
+  HANDOFF.md §5; rule 5 lists the FOUR files each addition touches.
 - New skills follow the ethskills pattern: corrections-first ("what you
   might be wrong about"), dated facts, embedded verification commands.
   Keep each skill standalone — an agent fetches only the one it needs.

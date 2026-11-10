@@ -42,8 +42,9 @@ DNS)
   436,113 bytes) joined the verified set 2026-11-10 (§3, OG-card entry).
 - Secrets set 2026-11-10 (write-only): `CLOUDFLARE_API_TOKEN`,
   `CLOUDFLARE_ACCOUNT_ID`.
-- Pipelines: nine consecutive green + two superseded cancellations as of
-  2026-11-10 — the initial commit (green after one secrets-refresh rerun,
+- Pipelines: thirteen consecutive green + two superseded cancellations as of
+  2026-11-10 (verified via `gh run list` — 15 total runs, NO failure
+  conclusion ever) — the initial commit (green after one secrets-refresh rerun,
   §4), the HANDOFF live-state push, the session-end AGENTS push, the
   OG-card push (run 42744574629), the OG-card docs push (run 42744995981),
   the contributions push (run 42747094870 — carried the starting-prompt
@@ -52,7 +53,11 @@ DNS)
   42747529707), the root-.md push (run 42748926333 — routing later
   REVERSED, see the routing-arc entry below), and the directory push (run
   42750527008 — carried the revert commit too: the revert's own run
-  42750376159 was cancelled-in-progress by it, same concurrency design).
+  42750376159 was cancelled-in-progress by it, same concurrency design),
+  the rename-references push (run 42751397221), the branding push (run
+  42902490115), and the rule-4-amendment push (run 42904833811). The
+  session-closing docs-sync push adds one more run after this record was
+  written (expected green — verify next session).
 
 ## 2. Day-2 ops
 
@@ -466,7 +471,8 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
 
 ## 5. Follow-ups (next-session queue)
 
-- **More skills** — candidates: gradle-build (AGP/Kotlin version matrix),
+- **More skills** — OWNER CONFIRMED 2026-11-10: the NEXT session starts
+  adding new skills. Candidates: gradle-build (AGP/Kotlin version matrix),
   apk-analysis (aapt/apkanalyzer inspection), screen-capture (screencap /
   screenrecord), app-signing (keystore discipline), play-store-policy
   (targetSdk gates, declaration forms), plus the ethskills analogs
@@ -476,7 +482,8 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
   stays omitted.
 - **Green-family differentiation** — all sibling properties now share
   `#3ddc84`; verify the treatments stay visually distinct (Droid Skills
-  uses green-on-paper with the 🤖 wordmark and skill-file mark).
+  uses green-on-paper with the robot wordmark and the green-robot favicon
+  — both shipped 2026-11-10, see the branding entry in §3).
 - **ethskills.com watch** — checked 2026-11-10 (§3): pattern-source at
   ~20 skills; the starting-prompt analog is shipped. Remaining structural
   analogs to consider on future passes: a "What to fetch by task" routing
