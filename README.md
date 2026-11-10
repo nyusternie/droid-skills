@@ -16,3 +16,12 @@ Public domain (CC0 1.0).
 | Type-check | `pnpm check`   |
 | Test       | `pnpm test`    |
 | Build      | `pnpm build`   |
+
+## Contributing
+
+Contributions are a first-class part of this project — wrong-fact reports,
+new skill proposals, fixes, tooling. Read [CONTRIBUTING.md](CONTRIBUTING.md)
+first: the bar is the verification discipline (every dated fact names its
+retrieval date and source page), and contributions are dedicated to the
+public domain under CC0 1.0 (full legal text: [LICENSE](LICENSE)).
+Conduct: [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md).
