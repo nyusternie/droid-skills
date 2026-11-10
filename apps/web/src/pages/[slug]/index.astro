@@ -6,6 +6,7 @@ import { getCollection, render } from 'astro:content'
 import type { GetStaticPaths } from 'astro'
 import type { CollectionEntry } from 'astro:content'
 import Base from '../../layouts/Base.astro'
+import CopyBlock from '../../components/CopyBlock.astro'
 import { withoutDrafts, formatDate } from '../../lib/skills'
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -32,7 +33,7 @@ const schema = {
   <link slot="head" rel="alternate" type="text/markdown" href={`/${skill.id}/SKILL.md`} />
   <section class="container py-10">
     <p class="kicker">Skill file</p>
-    <h1 class="mb-2 text-3xl font-extrabold">{skill.data.title}</h1>
+    <h1 class="mb-2 font-display text-3xl font-extrabold tracking-wide">{skill.data.title}</h1>
     <p class="mb-6 muted text-sm">
       Published {formatDate(skill.data.published)}{
         skill.data.updated && <> · Updated {formatDate(skill.data.updated)}</>
@@ -40,7 +41,7 @@ const schema = {
     </p>
     <div class="card mb-8">
       <p class="mb-2 text-sm font-bold">Fetch this skill (agents and humans alike):</p>
-      <pre class="pre">curl https://droidskills.dev/{skill.id}/SKILL.md</pre>
+      <CopyBlock command={`curl https://droidskills.dev/${skill.id}/SKILL.md`} />
     </div>
     <article class="skill-body">
       <Content />

@@ -1,0 +1,48 @@
+---
+// src/pages/skills/index.astro — the /skills page: the FULL shelf, every
+// published skill rendered from the collection in shelf order (owner
+// ruling 2026-11-10: no hashtag links — the shelf is its own page; the
+// landing page carries only a preview). Zero JavaScript (AGENTS.md rule 4).
+// JSON-LD mirrors the visible copy.
+import { getCollection } from 'astro:content'
+import Base from '../../layouts/Base.astro'
+import { withoutDrafts, sortByOrderAsc } from '../../lib/skills'
+
+const skills = sortByOrderAsc(withoutDrafts(await getCollection('skills')))
+const description =
+  'The full Droid Skills shelf — every published SKILL.md file for AI agents working on Android, fetchable over plain HTTP.'
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Skills — Droid Skills',
+  url: 'https://droidskills.dev/skills/',
+  description,
+}
+---
+
+<Base title="Skills" description={description} schema={schema}>
+  <section class="container py-10">
+    <p class="kicker">The shelf</p>
+    <h1 class="mb-4 font-display text-3xl font-extrabold tracking-wide">
+      Every skill on the shelf.
+    </h1>
+    <p class="mb-8 max-w-xl muted">
+      Each skill is a standalone SKILL.md file — fetch only the one your task needs. The raw file
+      lives at <code>/&lt;slug&gt;/SKILL.md</code>; the human page is at <code>/&lt;slug&gt;/</code>.
+    </p>
+    <div class="grid gap-5">
+      {
+        skills.map((skill) => (
+          <a
+            href={`/${skill.id}/`}
+            class="card block no-underline transition duration-200 hover:-translate-y-1 hover:border-accent hover:shadow-lg"
+          >
+            <h3 class="mb-1 text-xl font-bold text-ink">{skill.data.title}</h3>
+            <p class="muted text-sm">{skill.data.summary}</p>
+            <p class="mt-3 font-mono text-xs text-accent">/{skill.id}/SKILL.md</p>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</Base>

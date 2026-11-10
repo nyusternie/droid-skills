@@ -4,6 +4,7 @@
 // Page-specific JSON-LD is injected via the `schema` prop and MUST mirror
 // the visible copy.
 import '../styles/global.css'
+import Robot from '../components/Robot.astro'
 
 interface Props {
   title: string
@@ -53,12 +54,13 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
   <body>
     <header class="border-b border-line">
       <nav class="container flex items-center justify-between gap-4 py-4">
-        <a href="/" class="text-lg font-bold text-ink no-underline">
-          🤖 Droid Skills
+        <a href="/" class="wordmark">
+          <Robot class="h-10 w-10 sm:h-12 sm:w-12" />
+          Droid Skills
         </a>
         <div class="flex items-center gap-5">
-          <a href="/#skills" class="font-semibold no-underline">Skills</a>
           <a href="/SKILL.md" class="font-semibold no-underline">SKILL.md</a>
+          <a href="/skills/" class="font-semibold no-underline">Skills</a>
           <a href="/about" class="font-semibold no-underline">About</a>
         </div>
       </nav>
@@ -69,11 +71,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     </main>
 
     <footer class="mt-16 border-t border-line">
-      <div class="container py-8 text-sm muted">
-        <p>
-          Droid Skills · Skill files for AI agents working on Android —
-          public domain, no rights reserved (CC0 1.0).
-        </p>
+      <div class="container flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 py-8 text-sm muted">
+        <p>Droid Skills · Skill files for AI agents working on Android</p>
+        <p class="text-right">Public domain, no rights reserved (CC0 1.0).</p>
       </div>
     </footer>
   </body>

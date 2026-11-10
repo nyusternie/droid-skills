@@ -19,8 +19,10 @@ description), served over plain HTTP at stable URLs:
 - `https://droidskills.dev/<skill>/SKILL.md` — one file per topic
 - `https://droidskills.dev/llms.txt` — the machine-readable catalog
 
-The human-facing pages (`/`, `/<skill>/`, `/about`) are thin, zero-JavaScript
-wrappers around the same content. The architecture pattern was discovered
+The human-facing pages (`/`, `/skills`, `/<skill>/`, `/about`) are thin,
+zero-JavaScript wrappers around the same content. `/skills` is the full
+shelf as its own page (owner ruling 2026-11-10 — NO hashtag anchors for
+skills; the landing page carries only a preview). The architecture pattern was discovered
 from ethskills.com on 2026-11-09 ("Ethereum Knowledge for AI Agents" — same
 structure: root SKILL.md, per-topic SKILL.md, llms.txt). Never invert the
 priority: the served `.md` files are first-class, the HTML is the wrapper.
@@ -39,11 +41,14 @@ email field anywhere on the site).
 │       ├── src/content/skills/<slug>.md   # ONE skill per file (filename = slug)
 │       ├── src/pages/[slug]/index.astro   # human page for the skill
 │       ├── src/pages/[slug]/SKILL.md.ts   # agent-consumed SKILL.md endpoint
+│       ├── src/pages/skills/index.astro   # /skills — the full shelf page
 │       ├── src/pages/{index,about,404}.astro
+│       ├── src/components/ # Robot.astro (the mark, inline), CopyBlock.astro
+│       │                   # (zero-JS click-to-select copy block)
 │       ├── src/lib/        # pure, fixture-tested helpers (skills.ts,
 │       │                   # skill-markdown.ts + *.test.js)
 │       └── public/         # SKILL.md, llms.txt, _headers, _redirects,
-│                           # robots.txt, favicon.svg
+│                           # robots.txt, favicon.svg, fonts/ (Orbitron)
 ├── .github/workflows/web.yml   # CI + Cloudflare Pages deploy gate
 ├── pnpm-workspace.yaml     # nodeLinker hoisted + overrides + allowBuilds
 └── package.json            # root scripts only; private, no publish
@@ -195,10 +200,18 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
 
 ## Brand identity
 
-- Mark: `public/favicon.svg` — a skill file (document with folded corner)
-  bearing code slashes, Android green `#3ddc84`. Full-body/geometry-only:
-  no typography composited in post.
-- Emoji prefix in the header wordmark: 🤖.
+- Mark: `public/favicon.svg` — a GREEN ROBOT head (rounded-square face,
+  two antennae, wide-set eyes, small smile), Android green `#3ddc84`.
+  Owner ruling 2026-11-10: the favicon MUST be a green robot (supersedes
+  the 2026-11-09 skill-file mark). Full-body/geometry-only: no typography
+  composited in post. The same geometry is shared by
+  `src/components/Robot.astro` (inline mark + CSS-only bob/blink/
+  antenna-wiggle when `animated`).
+- Header wordmark: the robot mark inline beside "Droid Skills", MUCH
+  BIGGER than body text (owner ruling 2026-11-10), set in Orbitron 800 —
+  the droid-ish display face, self-hosted woff2 (SIL OFL 1.1, license at
+  `public/fonts/Orbitron-OFL.txt`); the `--font-display` @theme token
+  (utility `font-display`) also styles page-level h1 titles.
 - OG card: `apps/web/public/og-image.png` — the skill-file mark beside
   the wordmark, tagline and URL on paper (generated 2026-11-10 via the
   image-generation skill; provenance + QA in HANDOFF.md §3). `og:image`

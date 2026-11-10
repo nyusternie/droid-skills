@@ -1,0 +1,27 @@
+---
+// src/components/Robot.astro — the Droid Skills robot mark as an inline
+// SVG (same geometry as public/favicon.svg). Scales via the `class` prop.
+// Pass `animated` for the CSS-only bob/blink/antenna-wiggle defined in
+// global.css — zero JavaScript everywhere (AGENTS.md rule 4).
+interface Props {
+  class?: string
+  animated?: boolean
+}
+
+const { class: className = 'h-8 w-8', animated = false } = Astro.props
+---
+
+<svg
+  class:list={[className, { 'robot-animated': animated }]}
+  viewBox="0 0 64 64"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="The Droid Skills robot"
+>
+  <path class="robot-antenna" d="M21 18 14 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
+  <path class="robot-antenna" d="M43 18 50 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
+  <rect x="8" y="16" width="48" height="40" rx="14" fill="#3ddc84" />
+  <circle class="robot-eye" cx="23" cy="34" r="5" fill="#0f172a" />
+  <circle class="robot-eye" cx="41" cy="34" r="5" fill="#0f172a" />
+  <path d="M25 45h14" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+</svg>

@@ -13,12 +13,14 @@ explains WHY things are the way they are.
 Cloudflare edge 172.66.47.121 — never trust the dev-box resolver for fresh
 DNS)
 
-- Repo: `git@github.com:nyusternie/droidskills.dev.git` (RENAMED from
-  `droidskills` 2026-11-10 — owner ruling; repo id 1451984060 preserved,
-  old name redirects, runner `blackhost-ds` verified online post-rename
-  with all four required labels; PUBLIC — verified 2026-11-10 via
-  `gh repo view --json visibility`; the 2026-11-09 "private" record is
-  stale; SSH; branch
+- Repo: `git@github.com:nyusternie/droidskills.git` (rename REVERTED
+  2026-11-10 — owner ruling: the repo name stays TLD-agnostic because the
+  .dev TLD is not guaranteed permanent; the earlier same-day rename to
+  `droidskills.dev` is superseded — see the revert entry in §3; repo id
+  1451984060 preserved, both names redirect, runner `blackhost-ds`
+  verified online post-revert with all four required labels; PUBLIC —
+  re-verified 2026-11-10 via `gh api repos/nyusternie/droidskills`; the
+  2026-11-09 "private" record is stale; SSH; branch
   `master`; the repo pre-existed from the owner's registration with
   GitHub-default `main`, renamed to `master` 2026-11-09 — same pattern as
   the siblings).
@@ -308,7 +310,7 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
   skills in one file) remains an available future addition — queued in §5,
   build only if the owner wants it.
 
-### 2026-11-10 — repo renamed nyusternie/droidskills → nyusternie/droidskills.dev (owner ruling)
+### 2026-11-10 — repo renamed nyusternie/droidskills → nyusternie/droidskills.dev (owner ruling; REVERTED same day — see the next entry)
 
 - `gh repo rename` executed and verified: repo id 1451984060 preserved
   (issues/secrets/Actions/runners follow the immutable id), the old name
@@ -323,6 +325,70 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
   + session fork per owner note). Next session MUST verify: the path
   exists, `git status` clean, `git remote -v` =
   `git@github.com:nyusternie/droidskills.dev.git`.
+
+### 2026-11-10 — repo rename REVERTED: nyusternie/droidskills.dev → nyusternie/droidskills (owner ruling)
+
+- **Owner ruling (2026-11-10): the repo name reverts to `droidskills`** —
+  the owner is NOT 100% sure the .dev TLD will always be the one (a move
+  to another TLD is possible depending on community feedback), so the repo
+  name stays TLD-agnostic. The SITE domain is unchanged by this ruling —
+  `droidskills.dev` remains the live zone/Pages custom domain; no other
+  domain is registered at this time.
+- `gh repo rename droidskills -R nyusternie/droidskills.dev --yes`
+  executed and verified via `gh api repos/nyusternie/droidskills`: repo id
+  1451984060 preserved (issues/secrets/Actions/runners follow the
+  immutable id), default branch `master`, visibility public.
+- Runner `blackhost-ds` verified ONLINE post-revert (status=online,
+  busy=false) with all four required labels — CI unbroken.
+- Local remote on ayumi updated to
+  `git@github.com:nyusternie/droidskills.git` (fetch verified exit 0);
+  CODE_OF_CONDUCT.md enforcement URL + this file's §1 reverted (again the
+  only two repo-name references in tracked files, per grep).
+- Local folder on ayumi: verified 2026-11-10 — the checkout lives at
+  `/root/Workspace/droidskills` (the only droidskills* path in
+  /root/Workspace; the previous entry's `/root/Workspace/droidskills.dev`
+  record is stale — the folder on disk carries the old name, which now
+  matches the repo again).
+
+### 2026-11-10 — branding + UX rulings: green-robot favicon, /skills page, display font, zero-JS copy blocks, animated landing
+
+- **Owner rulings (2026-11-10), all landed in one pass:**
+  1. `SKILL.md` is the FIRST link in the header nav.
+  2. The `curl` commands MUST be copiable — implemented as the zero-JS
+     `CopyBlock.astro` (rule 4 unchanged: no clipboard JS anywhere; one
+     click selects the whole command via `user-select: all`, the command
+     is the only text node in the `<code>` so select-all can never capture
+     a prompt glyph). Used on the landing hero + every skill page's fetch
+     card. The starting-prompt block already worked this way (`select-all`).
+  3. NO hashtag links for skills — `/skills/` is a real page (the full
+     shelf, from the collection); the landing keeps only a preview
+     ("Fresh off the shelf") linking to it. The 2026-11-10 "full directory
+     at /SKILL.md supersedes a dedicated /skills page" note is REVERSED
+     for the HUMAN page only — the root SKILL.md full directory stands.
+     The 404's "Back to the shelf" now points at /skills/.
+  4. The favicon MUST be a green robot — new mark shipped (rounded-square
+     face, two antennae, wide-set eyes, small smile, #3ddc84; shared
+     geometry in `public/favicon.svg` + `Robot.astro`); supersedes the
+     2026-11-09 skill-file mark. AGENTS.md brand identity updated.
+  5. The landing page was TOO BORING — graphics + animation shipped,
+     ALL CSS-only (rule 4): animated robot (bob/blink/antenna-wiggle),
+     blueprint-grid hero backdrop, pulsing glow, a decorative terminal
+     that types the two real first fetches with steps() typewriter +
+     fade-in output (real frontmatter prefixes) + blinking caret, card
+     hover-lift. `prefers-reduced-motion: reduce` lands everything in its
+     final state instantly.
+  6. Header title + icon MUCH BIGGER, in a unique droid-ish font —
+     Orbitron 800 self-hosted woff2 (latin subset, 6,740 bytes, from
+     fonts.gstatic.com 2026-11-10; SIL OFL 1.1 verified, full text at
+     `public/fonts/Orbitron-OFL.txt`); `--font-display` token →
+     `font-display` utility on the wordmark + every page h1.
+  7. Hero headline replaced with the owner's copy: "Step-by-step
+     instructions for your Android to do just about ANYTHING!" (the old
+     "Android knowledge, in the format agents actually use." is retired).
+  8. Footer split: site line left, "Public domain, no rights reserved
+     (CC0 1.0)." RIGHT-aligned (owner ruling).
+  9. README: OG banner at the head + refreshed details (routes, brand,
+     TLD-agnostic repo name).
 
 ## 4. Infrastructure (all steps verified as landed)
 

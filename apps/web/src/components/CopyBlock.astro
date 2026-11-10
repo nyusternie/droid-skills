@@ -1,0 +1,19 @@
+---
+// src/components/CopyBlock.astro — a terminal-styled command block that is
+// COPIABLE with zero JavaScript (AGENTS.md rule 4 bans clipboard JS): one
+// click anywhere on the command selects the WHOLE command (user-select:
+// all), ready for Ctrl/Cmd+C. The command is the ONLY text node inside the
+// <code> — no prompt glyph — so select-all never captures anything but the
+// command itself.
+interface Props {
+  command: string
+  hint?: string
+}
+
+const { command, hint = 'click to select · Ctrl/Cmd+C to copy' } = Astro.props
+---
+
+<div class="copyblock">
+  <code class="copyblock-code">{command}</code>
+  <span class="copyblock-hint">{hint}</span>
+</div>

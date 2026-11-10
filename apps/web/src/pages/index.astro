@@ -5,6 +5,8 @@
 // copy.
 import { getCollection } from 'astro:content'
 import Base from '../layouts/Base.astro'
+import Robot from '../components/Robot.astro'
+import CopyBlock from '../components/CopyBlock.astro'
 import { withoutDrafts, sortByOrderAsc } from '../lib/skills'
 
 const skills = sortByOrderAsc(withoutDrafts(await getCollection('skills')))
@@ -23,14 +25,46 @@ const schema = {
   description="Skill files for AI agents working on Android — verified, dated, fetchable over plain HTTP."
   schema={schema}
 >
-  <section class="container py-12 text-center">
-    <p class="kicker">Skill files for AI agents</p>
-    <h1 class="mb-4 text-4xl font-extrabold">Android knowledge, in the format agents actually use.</h1>
-    <p class="mx-auto mb-8 max-w-xl text-lg muted">
-      Droid Skills publishes SKILL.md files — verified, dated corrections to stale model knowledge
-      about Android, fetchable by any agent over plain HTTP. No accounts, no email, no API keys.
-    </p>
-    <pre class="pre mx-auto max-w-xl text-left">curl https://droidskills.dev/SKILL.md</pre>
+  <section class="relative overflow-hidden">
+    <div class="hero-grid" aria-hidden="true"></div>
+    <div class="container relative py-16 text-center">
+      <div class="relative mx-auto mb-6 h-36 w-36 sm:h-44 sm:w-44">
+        <div class="hero-glow inset-0" aria-hidden="true"></div>
+        <Robot class="relative h-full w-full" animated />
+      </div>
+      <p class="kicker">Skill files for AI agents</p>
+      <h1 class="mx-auto mb-4 max-w-2xl font-display text-3xl font-extrabold tracking-wide sm:text-4xl">
+        Step-by-step instructions for your Android to do just about <span class="text-accent">ANYTHING!</span>
+      </h1>
+      <p class="mx-auto mb-8 max-w-xl text-lg muted">
+        Droid Skills publishes SKILL.md files — verified, dated corrections to stale model knowledge
+        about Android, fetchable by any agent over plain HTTP. No accounts, no email, no API keys.
+      </p>
+      <div class="mx-auto max-w-xl text-left">
+        <CopyBlock command="curl https://droidskills.dev/SKILL.md" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Decorative terminal: the two fetches every session starts with, typed
+       and answered purely in CSS (zero JavaScript). The output lines are the
+       real frontmatter prefixes served at those URLs. -->
+  <section class="container py-8" aria-hidden="true">
+    <div class="term">
+      <div class="term-bar">
+        <span class="term-dot bg-red-400"></span>
+        <span class="term-dot bg-amber-400"></span>
+        <span class="term-dot bg-brand"></span>
+      </div>
+      <div class="term-body">
+        <p class="term-type term-type-1">$ curl https://droidskills.dev/SKILL.md</p>
+        <p class="term-out term-out-1">name: droidskills</p>
+        <p class="term-out term-out-2">description: Use when a request involves Android — …</p>
+        <p class="term-type term-type-2">$ curl https://droidskills.dev/adb/SKILL.md</p>
+        <p class="term-out term-out-3">name: "adb"</p>
+        <p class="term-final">$<span class="term-caret"></span></p>
+      </div>
+    </div>
   </section>
 
   <section class="container py-8">
@@ -46,14 +80,19 @@ const schema = {
     </p>
   </section>
 
-  <section id="skills" class="container py-8">
-    <h2 class="mb-6 text-2xl font-bold">The shelf</h2>
-    <div class="grid gap-5">
+  <!-- Preview only — the FULL shelf is its own page at /skills/ (owner
+       ruling 2026-11-10: no hashtag anchors for skills). -->
+  <section class="container py-8">
+    <div class="mb-6 flex items-end justify-between gap-4">
+      <h2 class="text-2xl font-bold">Fresh off the shelf</h2>
+      <a href="/skills/" class="shrink-0 font-semibold">All skills →</a>
+    </div>
+    <div class="grid gap-5 sm:grid-cols-2">
       {
         skills.map((skill) => (
           <a
             href={`/${skill.id}/`}
-            class="card block no-underline transition-colors hover:border-accent"
+            class="card block no-underline transition duration-200 hover:-translate-y-1 hover:border-accent hover:shadow-lg"
           >
             <h3 class="mb-1 text-xl font-bold text-ink">{skill.data.title}</h3>
             <p class="muted text-sm">{skill.data.summary}</p>
@@ -61,6 +100,9 @@ const schema = {
           </a>
         ))
       }
+    </div>
+    <div class="mt-8 text-center">
+      <a href="/skills/" class="btn no-underline">Browse the full shelf</a>
     </div>
   </section>
 

@@ -1,11 +1,29 @@
-# Droid Skills — droidskills.dev
+# Droid Skills
+
+![Droid Skills — skill files for AI agents working on Android](apps/web/public/og-image.png)
 
 Skill files for AI agents working on Android — verified, dated corrections
 to stale model knowledge, served over plain HTTP as SKILL.md files.
-Public domain (CC0 1.0).
+Public domain (CC0 1.0). Live at https://droidskills.dev — the repo name
+itself is TLD-agnostic (`droidskills`; owner ruling 2026-11-10).
 
 - [AGENTS.md](AGENTS.md) — the working rules (mission, hard rules, commands)
 - [HANDOFF.md](HANDOFF.md) — the historical decision log
+
+## The site
+
+- `/SKILL.md` — the root index skill AND the full directory of all skills
+- `/<skill>/SKILL.md` — one agent-consumed skill file per topic
+- `/skills/` — the full shelf (human page; owner ruling 2026-11-10)
+- `/<skill>/` — the human page for one skill
+- `/llms.txt` — the machine-readable catalog
+- `/about` — the project, the verification discipline, the ground rules
+
+Brand: the green robot (`apps/web/public/favicon.svg`,
+`apps/web/src/components/Robot.astro`), Orbitron 800 display font
+(self-hosted woff2, SIL OFL 1.1 — `apps/web/public/fonts/Orbitron-OFL.txt`),
+Android green `#3ddc84` on cool paper, zero-JavaScript CSS animations
+(the site ships no client JS at all — AGENTS.md rule 4).
 
 ## Commands
 

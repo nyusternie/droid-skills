@@ -1,7 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Droid Skills mark: a skill file (document with folded corner) bearing
-       code slashes, in Android green #3ddc84 (owner ruling 2026-11-09). -->
-  <path d="M14 4h24l12 12v38a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V8a4 4 0 0 1 4-4z" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linejoin="round"/>
-  <path d="M38 4v12h12" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linejoin="round"/>
-  <path d="M24 32l-7 7 7 7M40 32l7 7-7 7" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Droid Skills mark: a green robot head — rounded-square face, two
+       antennae, wide-set bright eyes, a small smile — in Android green
+       #3ddc84 on ink. Owner ruling 2026-11-10: the favicon MUST be a green
+       robot (supersedes the 2026-11-09 skill-file mark). Same geometry as
+       src/components/Robot.astro. -->
+  <path d="M21 18 14 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round"/>
+  <path d="M43 18 50 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round"/>
+  <rect x="8" y="16" width="48" height="40" rx="14" fill="#3ddc84"/>
+  <circle cx="23" cy="34" r="5" fill="#0f172a"/>
+  <circle cx="41" cy="34" r="5" fill="#0f172a"/>
+  <path d="M25 45h14" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round"/>
 </svg>
