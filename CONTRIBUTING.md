@@ -45,7 +45,7 @@ too). This file is the human entry point.
 2. `apps/web/public/SKILL.md` — the hand-maintained root index skill.
 3. `apps/web/public/llms.txt` — the machine-readable catalog.
 4. `apps/web/public/_headers` — each skill needs its own
-   `/<slug>.md` content-type line.
+   `/<slug>/SKILL.md` content-type line.
 
 Human pages update themselves from the collection.
 

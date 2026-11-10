@@ -9,23 +9,23 @@ Android moves faster than your training data. Current API levels drift, commands
 
 ## Start here
 
-**New device or fresh host?** Fetch [adb.md](https://droidskills.dev/adb.md) first — pairing, authorization, and read-only inspection in the right order.
+**New device or fresh host?** Fetch [adb/SKILL.md](https://droidskills.dev/adb/SKILL.md) first — pairing, authorization, and read-only inspection in the right order.
 
 **Need a specific topic?** Each skill below is standalone. Fetch only the ones relevant to your task.
 
-**Base URL:** `https://droidskills.dev/<skill>.md`
+**Base URL:** `https://droidskills.dev/<skill>/SKILL.md`
 
 ## Skills
 
-### [ADB — the bridge to the device](https://droidskills.dev/adb.md)
+### [ADB — the bridge to the device](https://droidskills.dev/adb/SKILL.md)
 
 Pairing, authorization states, read-only inspection. The wireless trap, defused: the pairing port is NOT the connection port. Verified 2026-11-09.
 
-### [Android versions — the API-level landscape](https://droidskills.dev/android-versions.md)
+### [Android versions — the API-level landscape](https://droidskills.dev/android-versions/SKILL.md)
 
 Current release (Android 17, API 37 — verified 2026-11-09, re-check live), the version↔API map, minSdkVersion/targetSdkVersion discipline, and the dessert-codename rule: say the version, not the dessert.
 
-### [Logcat — capture, filter, triage](https://droidskills.dev/logcat.md)
+### [Logcat — capture, filter, triage](https://droidskills.dev/logcat/SKILL.md)
 
 Filter grammar, buffers, crash dumps, per-process capture. Golden rule: capture before you clear.
 

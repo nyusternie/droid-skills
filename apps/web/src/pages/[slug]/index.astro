@@ -1,6 +1,6 @@
 ---
 // src/pages/[slug]/index.astro — the human page for one skill. The raw
-// agent-consumed file lives at /<slug>.md (endpoint: src/pages/[slug].md.ts,
+// agent-consumed file lives at /<slug>/SKILL.md (endpoint: SKILL.md.ts,
 // linked here via <link rel="alternate" type="text/markdown">).
 import { getCollection, render } from 'astro:content'
 import type { GetStaticPaths } from 'astro'
@@ -29,7 +29,7 @@ const schema = {
 ---
 
 <Base title={skill.data.title} description={skill.data.summary} ogType="article" schema={schema}>
-  <link slot="head" rel="alternate" type="text/markdown" href={`/${skill.id}.md`} />
+  <link slot="head" rel="alternate" type="text/markdown" href={`/${skill.id}/SKILL.md`} />
   <section class="container py-10">
     <p class="kicker">Skill file</p>
     <h1 class="mb-2 text-3xl font-extrabold">{skill.data.title}</h1>
@@ -40,7 +40,7 @@ const schema = {
     </p>
     <div class="card mb-8">
       <p class="mb-2 text-sm font-bold">Fetch this skill (agents and humans alike):</p>
-      <pre class="pre">curl https://droidskills.dev/{skill.id}.md</pre>
+      <pre class="pre">curl https://droidskills.dev/{skill.id}/SKILL.md</pre>
     </div>
     <article class="skill-body">
       <Content />

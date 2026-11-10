@@ -4,7 +4,7 @@ import { glob } from 'astro/loaders'
 
 // The skills collection — one Markdown file per skill in
 // src/content/skills/ (filename = route slug: <slug>.md → /<slug>/ for the
-// human page and /<slug>.md for the agent-consumed skill file).
+// human page and /<slug>/SKILL.md for the agent-consumed skill file).
 // `name` + `description` follow the agent skill-loader convention
 // (description is the "Use when…" trigger string) and are emitted VERBATIM
 // into the served SKILL.md frontmatter by src/lib/skill-markdown.ts.

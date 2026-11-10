@@ -14,9 +14,7 @@ skill files in the SKILL.md convention (`name` + a "Use when…" trigger
 description), served over plain HTTP at stable URLs:
 
 - `https://droidskills.dev/SKILL.md` — the root index skill (hand-maintained)
-- `https://droidskills.dev/<skill>.md` — one file per topic, at the site
-  ROOT (owner ruling 2026-11-10; the retired `/<skill>/SKILL.md` paths
-  404 naturally — no redirects, rule 9)
+- `https://droidskills.dev/<skill>/SKILL.md` — one file per topic
 - `https://droidskills.dev/llms.txt` — the machine-readable catalog
 
 The human-facing pages (`/`, `/<skill>/`, `/about`) are thin, zero-JavaScript
@@ -38,7 +36,7 @@ email field anywhere on the site).
 │   └── web/                # Astro 7 static site
 │       ├── src/content/skills/<slug>.md   # ONE skill per file (filename = slug)
 │       ├── src/pages/[slug]/index.astro   # human page for the skill
-│       ├── src/pages/[slug].md.ts        # agent-consumed <skill>.md endpoint
+│       ├── src/pages/[slug]/SKILL.md.ts   # agent-consumed SKILL.md endpoint
 │       ├── src/pages/{index,about,404}.astro
 │       ├── src/lib/        # pure, fixture-tested helpers (skills.ts,
 │       │                   # skill-markdown.ts + *.test.js)
@@ -66,7 +64,7 @@ email field anywhere on the site).
   edge 172.66.47.121 — the dev-box resolver serves stale negatives for
   fresh DNS):** all routes 200 — `/`, `/about/`, the three skill pages,
   `/robots.txt`, the `www` host — and the product content-types are
-  correct: `/SKILL.md` + `/<skill>.md` as
+  correct: `/SKILL.md` + `/<skill>/SKILL.md` as
   `text/markdown; charset=utf-8`, `/llms.txt` as `text/plain`.
 - **CI:** self-hosted runner `blackhost-ds` on the blackhost VPS, labels
   `self-hosted,Linux,X64,blackhost` — the `blackhost` label is REQUIRED by
@@ -133,7 +131,7 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
    `draft?`. **When adding or removing a skill, update FOUR things:**
    the collection file, the hand-maintained root `public/SKILL.md`,
    `public/llms.txt`, and `public/_headers` (each skill needs its own
-   `/<slug>.md` content-type line). Human pages update themselves
+   `/<slug>/SKILL.md` content-type line). Human pages update themselves
    from the collection.
 6. **Never wipe third-party app data.** Family rule, applies to any device
    work done while authoring/verifying skills: no `pm clear`, no
@@ -185,7 +183,7 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
   might be wrong about"), dated facts, embedded verification commands.
   Keep each skill standalone — an agent fetches only the one it needs.
 - Cross-references between skills use absolute own-host URLs
-  (`https://droidskills.dev/<skill>.md`) — rule 9 bans only
+  (`https://droidskills.dev/<skill>/SKILL.md`) — rule 9 bans only
   OTHER-host links; own URLs are the product.
 - The served SKILL.md frontmatter is convention-pure (`name`,
   `description`) — build-time metadata (`summary`, dates, order) never
@@ -211,4 +209,4 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
 - JSON-LD: WebSite on `/`, TechArticle per skill page — MUST mirror the
   visible copy exactly (the same title, the same summary, the same dates).
 - `<link rel="alternate" type="text/markdown">` on each skill page points
-  at its `/<skill>.md` file — the agent-discovery hook.
+  at its SKILL.md — the agent-discovery hook.

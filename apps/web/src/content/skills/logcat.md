@@ -37,4 +37,4 @@ Filter syntax is `<tag>:<priority>`, where priority is V(erbose), D(ebug), I(nfo
 
 ## Verify the pipeline
 
-`adb logcat -d -t 5` — five lines from the device means transport and permissions are working. Silence means the device is not connected or not authorized: see the [ADB skill](https://droidskills.dev/adb.md).
+`adb logcat -d -t 5` — five lines from the device means transport and permissions are working. Silence means the device is not connected or not authorized: see the [ADB skill](https://droidskills.dev/adb/SKILL.md).
