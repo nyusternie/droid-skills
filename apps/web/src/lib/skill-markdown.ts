@@ -1,5 +1,5 @@
 // src/lib/skill-markdown.ts — assembles the raw SKILL.md body served at
-// /<slug>/SKILL.md (endpoint: src/pages/[slug]/SKILL.md.ts). The root index
+// /<slug>.md (endpoint: src/pages/[slug].md.ts). The root index
 // (public/SKILL.md) is hand-maintained in the same convention. Pure and
 // fixture-tested (src/lib/skill-markdown.test.js) so the endpoint stays
 // thin. The frontmatter follows the agent skill-loader convention — `name`

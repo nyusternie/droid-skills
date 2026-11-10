@@ -27,7 +27,7 @@ Android 16 → API 36
 Android 17 → API 37
 ```
 
-The mapping is one-to-one and monotonic: each major version raises the API level by exactly one. (13→33 through 15→35 are stable documented history; 16→36 and 17→37 verified 2026-11-09 as above.) On a device, the pair is `ro.build.version.release` and `ro.build.version.sdk` — see the [ADB skill](https://droidskills.dev/adb/SKILL.md).
+The mapping is one-to-one and monotonic: each major version raises the API level by exactly one. (13→33 through 15→35 are stable documented history; 16→36 and 17→37 verified 2026-11-09 as above.) On a device, the pair is `ro.build.version.release` and `ro.build.version.sdk` — see the [ADB skill](https://droidskills.dev/adb.md).
 
 ## Say the version, not the dessert
 

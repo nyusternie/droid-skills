@@ -4,9 +4,9 @@
 
 ## Skills
 
-- [ADB](https://droidskills.dev/adb/SKILL.md): pairing, authorization, read-only device inspection.
-- [Android versions](https://droidskills.dev/android-versions/SKILL.md): current release and API-level map, dated and verified.
-- [Logcat](https://droidskills.dev/logcat/SKILL.md): capture, filter, triage device logs.
+- [ADB](https://droidskills.dev/adb.md): pairing, authorization, read-only device inspection.
+- [Android versions](https://droidskills.dev/android-versions.md): current release and API-level map, dated and verified.
+- [Logcat](https://droidskills.dev/logcat.md): capture, filter, triage device logs.
 
 ## Optional
 

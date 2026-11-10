@@ -53,7 +53,7 @@ adb shell pm list packages -3                # third-party packages only
 adb shell dumpsys battery                    # battery state (read-only dump)
 ```
 
-Cross-reference: the [Android versions skill](https://droidskills.dev/android-versions/SKILL.md) turns the version/SDK pair into the platform landscape.
+Cross-reference: the [Android versions skill](https://droidskills.dev/android-versions.md) turns the version/SDK pair into the platform landscape.
 
 ## Out of scope
 
