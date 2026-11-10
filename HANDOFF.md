@@ -13,9 +13,12 @@ explains WHY things are the way they are.
 Cloudflare edge 172.66.47.121 — never trust the dev-box resolver for fresh
 DNS)
 
-- Repo: `git@github.com:nyusternie/droidskills.git` (PUBLIC — verified
-  2026-11-10 via `gh repo view --json visibility`; the 2026-11-09
-  "private" record is stale; SSH; branch
+- Repo: `git@github.com:nyusternie/droidskills.dev.git` (RENAMED from
+  `droidskills` 2026-11-10 — owner ruling; repo id 1451984060 preserved,
+  old name redirects, runner `blackhost-ds` verified online post-rename
+  with all four required labels; PUBLIC — verified 2026-11-10 via
+  `gh repo view --json visibility`; the 2026-11-09 "private" record is
+  stale; SSH; branch
   `master`; the repo pre-existed from the owner's registration with
   GitHub-default `main`, renamed to `master` 2026-11-09 — same pattern as
   the siblings).
@@ -37,14 +40,17 @@ DNS)
   436,113 bytes) joined the verified set 2026-11-10 (§3, OG-card entry).
 - Secrets set 2026-11-10 (write-only): `CLOUDFLARE_API_TOKEN`,
   `CLOUDFLARE_ACCOUNT_ID`.
-- Pipelines: six consecutive green + one superseded cancellation as of
+- Pipelines: nine consecutive green + two superseded cancellations as of
   2026-11-10 — the initial commit (green after one secrets-refresh rerun,
   §4), the HANDOFF live-state push, the session-end AGENTS push, the
   OG-card push (run 42744574629), the OG-card docs push (run 42744995981),
-  and the contributions push (run 42747094870 — carried the
-  starting-prompt commit too: the starting-prompt push's own run
-  42746932708 was cancelled-in-progress by it under web.yml's concurrency
-  design, not a failure).
+  the contributions push (run 42747094870 — carried the starting-prompt
+  commit too: its own run 42746932708 was cancelled-in-progress by it
+  under web.yml's concurrency design, not a failure), the docs push (run
+  42747529707), the root-.md push (run 42748926333 — routing later
+  REVERSED, see the routing-arc entry below), and the directory push (run
+  42750527008 — carried the revert commit too: the revert's own run
+  42750376159 was cancelled-in-progress by it, same concurrency design).
 
 ## 2. Day-2 ops
 
@@ -267,6 +273,57 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
   README/LICENSE/CoC/CONTRIBUTING live at the repo root, not in
   `apps/web/dist`).
 
+### 2026-11-10 — routing arc closed: root-.md ruling landed, then REVERSED by owner ruling; nested /<slug>/SKILL.md restored; static-for-SEO enshrined
+
+- The root-.md migration (f02c76e) shipped and was live-verified (root
+  endpoints 200 text/markdown, nested 404, dist 100% static files).
+  During post-deploy verification one anomaly appeared: `/logcat/SKILL.md`
+  kept returning 200 with `cf-cache-status: DYNAMIC` + `cache-control:
+  no-store` — a Pages-origin propagation straggler, not edge cache; still
+  200 at +3.5 min when the reversal landed (the revert made it moot: the
+  URL serves the same content again).
+- **Owner ruling (2026-11-10): maintain the pre-existing `/<slug>/SKILL.md`
+  pattern** — the same-day root-.md ruling is REVERSED. Reverted as
+  f8d42a0 (git rename-tracking confirmed the endpoint moved back, 53%
+  similarity). The static-for-SEO requirement was NOT reversed — enshrined
+  permanently in AGENTS.md rule 4 ("every page ships as a real file in
+  `dist/` — verify with `find apps/web/dist -name '*.html'` after each
+  build").
+- Revert live-verified: nested endpoints 3× 200 text/markdown, root .md
+  paths 3× 404, gates 8/8 tests + 0 errors/0 warnings.
+
+### 2026-11-10 — full directory of ALL skills at /SKILL.md (owner ruling)
+
+- **Owner rulings (2026-11-10): a FULL DIRECTORY of ALL SKILLS is
+  required; it lives at `https://droidskills.dev/SKILL.md`** (a dedicated
+  `/skills/` human page was considered and is superseded by this ruling).
+  Shipped as 5b11fd9: `## Skills` expanded into `## The full directory of
+  ALL skills` — slug-keyed headings, each skill's "Use when…" trigger
+  VERBATIM from its collection frontmatter, stable URLs (skill file +
+  human page), published dates; all existing hooks and verified dates
+  preserved. AGENTS.md mission bullet + llms.txt Optional line updated to
+  name the directory. Live-verified: the directory section serves at
+  /SKILL.md.
+- An llms-full.txt-style agent catalog (full concatenated content of all
+  skills in one file) remains an available future addition — queued in §5,
+  build only if the owner wants it.
+
+### 2026-11-10 — repo renamed nyusternie/droidskills → nyusternie/droidskills.dev (owner ruling)
+
+- `gh repo rename` executed and verified: repo id 1451984060 preserved
+  (issues/secrets/Actions/runners follow the immutable id), the old name
+  redirects (web + git), visibility public, default branch `master`.
+- Runner `blackhost-ds` verified ONLINE post-rename with all four required
+  labels — CI unbroken.
+- Local remote updated to `git@github.com:nyusternie/droidskills.dev.git`;
+  CODE_OF_CONDUCT.md enforcement URL + this file's §1 updated (the only
+  two repo-name references in tracked files, per grep).
+- Local folder on ayumi: renamed to `/root/Workspace/droidskills.dev`
+  immediately after this commit as the session's final action (Pi restart
+  + session fork per owner note). Next session MUST verify: the path
+  exists, `git status` clean, `git remote -v` =
+  `git@github.com:nyusternie/droidskills.dev.git`.
+
 ## 4. Infrastructure (all steps verified as landed)
 
 1. GitHub repo push (initial commit, 2026-11-09).
@@ -340,3 +397,7 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
   (README, CONTRIBUTING.md, CODE_OF_CONDUCT.md, LICENSE). Consider GitHub
   issue templates and a PR template on a future pass; SECURITY.md needs a
   contact decision first (the no-email constraint that shaped the CoC).
+- **llms-full.txt-style agent catalog** — concatenated full content of all
+  skills in one file, per the llms.txt convention's companion-file
+  pattern; build only if the owner wants it (the full directory at
+  /SKILL.md may suffice).
