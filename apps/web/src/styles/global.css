@@ -51,30 +51,30 @@
     @apply mx-auto w-full max-w-3xl px-5;
   }
   .muted {
-    @apply text-slate-500;
+    @apply text-slate-500 dark:text-slate-400;
   }
   .btn {
     @apply inline-block rounded-lg border border-brand bg-brand px-4 py-2 font-semibold text-ink no-underline transition-colors hover:border-accent hover:bg-accent hover:text-white;
   }
   .btn-ghost {
-    @apply inline-block rounded-lg border border-line bg-white px-4 py-2 font-semibold text-accent no-underline transition-colors hover:border-accent;
+    @apply inline-block rounded-lg border border-line bg-white px-4 py-2 font-semibold text-accent no-underline transition-colors hover:border-accent dark:bg-slate-900;
   }
   .card {
-    @apply rounded-xl border border-line bg-white p-5;
+    @apply rounded-xl border border-line bg-white p-5 dark:bg-slate-900;
   }
   .kicker {
     @apply mb-2 text-sm font-bold tracking-widest text-accent uppercase;
   }
   /* Command/skill-file blocks — the product's aesthetic is the terminal. */
   .pre {
-    @apply my-4 overflow-x-auto rounded-lg border border-line bg-slate-50 p-4 font-mono text-sm;
+    @apply my-4 overflow-x-auto rounded-lg border border-line bg-slate-50 p-4 font-mono text-sm dark:bg-slate-900;
   }
   /* The copiable command block (src/components/CopyBlock.astro) — dark
      terminal, brand-green command. JS on: the Copy button (revealed and
      wired by /js/copy.js) copies in one click. JS off: one click on the
      command selects it whole (select-all), the hint chip says so. */
   .copyblock {
-    @apply my-4 flex items-center gap-3 overflow-hidden rounded-lg border border-ink bg-ink p-4 shadow-md;
+    @apply my-4 flex items-center gap-3 overflow-hidden rounded-lg border border-slate-900 bg-slate-900 p-4 shadow-md;
   }
   .copyblock-code {
     @apply min-w-0 flex-1 cursor-pointer overflow-x-auto font-mono text-sm font-semibold whitespace-nowrap text-brand select-all;
@@ -111,10 +111,10 @@
     @apply list-decimal;
   }
   .skill-body blockquote {
-    @apply my-4 border-l-4 border-brand pl-4 text-slate-600 italic;
+    @apply my-4 border-l-4 border-brand pl-4 text-slate-600 italic dark:text-slate-400;
   }
   .skill-body code {
-    @apply rounded bg-slate-100 px-1 py-0.5 text-sm;
+    @apply rounded bg-slate-100 px-1 py-0.5 text-sm dark:bg-slate-800;
   }
 
   /* ---- Landing-page graphics + CSS-only animation (owner ruling
@@ -163,7 +163,7 @@
      caret keeps blinking. Char counts are literal per class (rule 7 bans
      inline styles). */
   .term {
-    @apply mx-auto w-full max-w-xl overflow-hidden rounded-xl border border-ink bg-ink text-left shadow-lg;
+    @apply mx-auto w-full max-w-xl overflow-hidden rounded-xl border border-slate-900 bg-slate-900 text-left shadow-lg;
   }
   .term-bar {
     @apply flex items-center gap-2 border-b border-slate-700 px-4 py-2.5;
@@ -227,6 +227,42 @@
     .term-final {
       opacity: 1;
     }
+  }
+}
+
+/* Dark mode (owner request 2026-11-10): pure CSS prefers-color-scheme —
+   zero JS, zero markup changes, fully usable with scripts disabled
+   (rule 4). This block is UNLAYERED so every rule beats the layered
+   light defaults whenever the media query matches. The :root swap
+   re-themes every token utility (bg-paper, text-ink, text-accent,
+   border-line, …) in one move; the button rules protect the fixed pair
+   dark-text-on-green-fill (bright #3ddc84 stays the fill in dark mode,
+   so the text stays #0f172a); the hero grid is lifted from accent-green
+   to brand-green so it stays visible on the dark page. The always-dark
+   terminal surfaces (.copyblock/.term) need nothing here — they moved
+   to slate-900, which equals the old ink in light mode and never
+   follows the swap. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-ink: #e6edf5;
+    --color-paper: #070d16;
+    --color-accent: #3ddc84;
+    --color-line: #1e293b;
+    color-scheme: dark;
+  }
+  .btn,
+  .copyblock-btn {
+    color: #0f172a;
+  }
+  .btn:hover,
+  .copyblock-btn:hover,
+  .copyblock-btn-copied {
+    color: #0f172a;
+  }
+  .hero-grid {
+    background-image:
+      linear-gradient(to right, rgb(61 220 132 / 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(61 220 132 / 0.08) 1px, transparent 1px);
   }
 }
 

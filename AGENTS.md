@@ -101,6 +101,10 @@ email field anywhere on the site).
 - **Palette:** Android green `#3ddc84` (owner ruling 2026-11-09,
   family-shared with the siblings) on cool paper `#fafcff`; text-safe
   accent `#178247` (4.73:1 on paper); bright green is fills-only.
+  **Dark mode (added 2026-11-10):** pure CSS `prefers-color-scheme` in
+  `global.css` — a `:root` token swap + `dark:` variants on the raw
+  classes; zero JS, zero markup changes; terminals stay dark via
+  `slate-900` (= the same `#0f172a` as `ink`). See HANDOFF.md §3.
 
 ## Commands
 

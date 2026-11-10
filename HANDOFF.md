@@ -423,6 +423,49 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
   global.css comments, README brand line). Historical HANDOFF entries
   stand as written — they record what was true on their dates.
 
+### 2026-11-10 — dark mode shipped: pure-CSS prefers-color-scheme, zero JS, zero markup changes
+
+- **Owner request (2026-11-10, same session as the droid-skills repo
+  rename): add dark mode support.** Implemented as a pure
+  `@media (prefers-color-scheme: dark)` pass in `global.css` — NO toggle,
+  NO JavaScript, NO markup changes in any .astro file (verified: markup
+  carries zero raw palette utilities; every color-bearing class is a
+  shared component class or a token utility). Rule 4-compliant by
+  construction: with scripts disabled the dark theme is fully present.
+- **Mechanism — three cooperating pieces:** (1) a `:root` swap inside the
+  media query re-values the four theme tokens (`--color-ink` #e6edf5,
+  `--color-paper` #070d16, `--color-accent` #3ddc84 — the bright brand
+  green becomes the text-safe accent on dark, `--color-line` #1e293b) +
+  sets `color-scheme: dark`; every token utility (bg-paper, text-ink,
+  border-line…) follows automatically because Tailwind v4 utilities
+  reference the tokens as CSS variables. (2) `dark:` variants on the six
+  raw-palette component classes (`muted`, `btn-ghost`, `card`, `pre`,
+  skill-body blockquote, skill-body inline code). (3) The always-dark
+  terminal surfaces (`.copyblock`, `.term`) moved from
+  `border-ink bg-ink` to `border-slate-900 bg-slate-900` — slate-900 IS
+  #0f172a, the same value as ink, so light mode renders 1:1 identical
+  while dark mode keeps the terminals dark instead of inverting them.
+- **The media-query block is deliberately UNLAYERED** (outside `@layer
+  components`) so it beats the layered light defaults without specificity
+  games; it also pins `.btn`/`.copyblock-btn` (+ hover/copied states) to
+  `color: #0f172a` — the bright-green fill stays `#3ddc84` in dark mode,
+  so the text on it must stay dark (the token swap would otherwise turn
+  it light → illegible). `.hero-grid` lines lift from accent-green
+  (rgb(23 130 71 / 0.07)) to brand-green (rgb(61 220 132 / 0.08)) so the
+  blueprint stays visible on the dark page.
+- **Robot mark + favicon need no change** — the robot is #3ddc84 with
+  #0f172a features on its own face; self-contained, reads on any page
+  background. `hero-glow` (brand-green radial) works on both.
+- Gates green in the same session: `pnpm check` 0 errors, `pnpm test`
+  8/8, `pnpm build` 7 pages + 3 SKILL.md; the compiled
+  `prefers-color-scheme` block, the `:root` swap, the button pins, and
+  the slate-900 terminals were all verified present in the built
+  `dist/_astro/*.css` (LightningCSS minification keeps the media query).
+- A manual theme TOGGLE remains a possible future enhancement (would
+  ride rule 4's JS-as-enhancement allowance: media query as the no-JS
+  default, a small script overriding via a data attribute). NOT shipped —
+  owner asked only for dark mode support.
+
 ## 4. Infrastructure (all steps verified as landed)
 
 1. GitHub repo push (initial commit, 2026-11-09).
