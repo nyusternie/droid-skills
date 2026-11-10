@@ -1,6 +1,8 @@
 ---
 // src/layouts/Base.astro — sitewide shell: head meta (canonical, favicon),
-// header nav, footer. Zero JavaScript everywhere (AGENTS.md rule 4).
+// header nav, footer. JavaScript is enhancement-only (AGENTS.md rule 4):
+// the single script, /js/copy.js, is a static asset loaded with `defer` —
+// it wires the copy buttons and every page works fully without it.
 // Page-specific JSON-LD is injected via the `schema` prop and MUST mirror
 // the visible copy.
 import '../styles/global.css'
@@ -32,6 +34,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
          2026-11-10): rel="describedby" points at the llms.txt file that
          covers this site. -->
     <link rel="describedby" href="/llms.txt" />
+    <!-- The one enhancement script (rule 4). defer = DOM ready at run -->
+    <script src="/js/copy.js" defer></script>
 
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />

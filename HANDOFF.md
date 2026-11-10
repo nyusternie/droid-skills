@@ -390,6 +390,32 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
   9. README: OG banner at the head + refreshed details (routes, brand,
      TLD-agnostic repo name).
 
+### 2026-11-10 — rule 4 AMENDED: JavaScript allowed as enhancement ONLY; static stays absolute; TRUE one-click copy shipped
+
+- **Owner ruling (2026-11-10, same day as the branding pass): amend rule
+  4 — client-side JavaScript IS allowed, BUT the site MUST remain
+  "static".** The amendment as written into AGENTS.md rule 4: no SSR, no
+  adapters (unchanged and absolute); JS only as hand-written vanilla
+  progressive enhancement shipped as a static asset; every page MUST stay
+  fully usable with JavaScript disabled (all content readable, every
+  JS-wired feature has a no-JS path); JavaScript never gates content.
+  The 100% static prerendering SEO requirement + the
+  `find apps/web/dist -name '*.html'` verification are unchanged.
+- Shipped: `public/js/copy.js` (the ONLY script on the site, loaded with
+  `defer` from Base.astro) + a `Copy` button on every `CopyBlock.astro`.
+  Progressive enhancement by construction: the button renders with
+  `hidden`; the script reveals it and wires `navigator.clipboard.writeText`
+  (success → "Copied!" flash; denial/insecure context → selects the
+  command instead). JavaScript off → the button never appears and the
+  original click-to-select path (`user-select: all`, hint chip) carries
+  the feature — 1:1 parity with the pre-amendment UX, plus the button.
+  The starting-prompt block was upgraded from `<pre select-all>` to a
+  CopyBlock in the same pass (it is the text users actually paste).
+- Every stale "zero JavaScript" claim corrected in the same pass (site
+  About page content, Base/index/skills/404/Robot/CopyBlock comments,
+  global.css comments, README brand line). Historical HANDOFF entries
+  stand as written — they record what was true on their dates.
+
 ## 4. Infrastructure (all steps verified as landed)
 
 1. GitHub repo push (initial commit, 2026-11-09).

@@ -70,7 +70,8 @@
     @apply my-4 overflow-x-auto rounded-lg border border-line bg-slate-50 p-4 font-mono text-sm;
   }
   /* The copiable command block (src/components/CopyBlock.astro) — dark
-     terminal, brand-green command, zero-JavaScript copy: one click on the
+     terminal, brand-green command. JS on: the Copy button (revealed and
+     wired by /js/copy.js) copies in one click. JS off: one click on the
      command selects it whole (select-all), the hint chip says so. */
   .copyblock {
     @apply my-4 flex items-center gap-3 overflow-hidden rounded-lg border border-ink bg-ink p-4 shadow-md;
@@ -80,6 +81,12 @@
   }
   .copyblock-hint {
     @apply shrink-0 rounded border border-slate-600 px-2 py-1 text-[11px] font-semibold tracking-wide whitespace-nowrap text-slate-400 uppercase select-none;
+  }
+  .copyblock-btn {
+    @apply shrink-0 cursor-pointer rounded-md border border-brand bg-brand px-3 py-1.5 text-xs font-bold tracking-wide text-ink uppercase transition-colors select-none hover:border-accent hover:bg-accent hover:text-white;
+  }
+  .copyblock-btn-copied {
+    @apply border-accent bg-accent text-white;
   }
   /* The header wordmark (owner ruling 2026-11-10: MUCH BIGGER title +
      icon, in the droid-ish display font). */
@@ -111,7 +118,7 @@
   }
 
   /* ---- Landing-page graphics + CSS-only animation (owner ruling
-     2026-11-10; zero JavaScript — AGENTS.md rule 4) ---- */
+     2026-11-10; the animations stay CSS-only — AGENTS.md rule 4) ---- */
 
   /* The animated robot (src/components/Robot.astro `animated` prop):
      bob, blink,

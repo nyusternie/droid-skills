@@ -20,7 +20,7 @@ description), served over plain HTTP at stable URLs:
 - `https://droidskills.dev/llms.txt` — the machine-readable catalog
 
 The human-facing pages (`/`, `/skills`, `/<skill>/`, `/about`) are thin,
-zero-JavaScript wrappers around the same content. `/skills` is the full
+wrappers around the same content (JS is enhancement-only — rule 4). `/skills` is the full
 shelf as its own page (owner ruling 2026-11-10 — NO hashtag anchors for
 skills; the landing page carries only a preview). The architecture pattern was discovered
 from ethskills.com on 2026-11-09 ("Ethereum Knowledge for AI Agents" — same
@@ -44,7 +44,7 @@ email field anywhere on the site).
 │       ├── src/pages/skills/index.astro   # /skills — the full shelf page
 │       ├── src/pages/{index,about,404}.astro
 │       ├── src/components/ # Robot.astro (the mark, inline), CopyBlock.astro
-│       │                   # (zero-JS click-to-select copy block)
+│       │                   # (one-click clipboard copy; click-to-select fallback)
 │       ├── src/lib/        # pure, fixture-tested helpers (skills.ts,
 │       │                   # skill-markdown.ts + *.test.js)
 │       └── public/         # SKILL.md, llms.txt, _headers, _redirects,
@@ -121,13 +121,19 @@ build, and only then deploys `apps/web/dist` to Cloudflare Pages (see
    (or is omitted with a live-verification pointer) — never stated from
    memory. If a claim has no source, do not write it; ask, or verify it
    live first.
-4. **Static export, zero JS.** `apps/web` is a purely static Astro site
-   (`astro build` → `apps/web/dist/`). No SSR, no adapters, no client-side
-   JavaScript anywhere — the skill files are the product and they need no
-   runtime. All dynamic/backend functionality is out of scope by design.
-   100% static prerendering is also an SEO requirement (owner ruling
-   2026-11-10): every page ships as a real file in `dist/` — verify with
-   `find apps/web/dist -name '*.html'` after each build.
+4. **Static export; JS as enhancement ONLY** (owner ruling 2026-11-10 —
+   AMENDS the 2026-11-09 "zero JS" ruling). `apps/web` is a purely static
+   Astro site (`astro build` → `apps/web/dist/`). No SSR, no adapters —
+   that part is UNCHANGED and absolute. Client-side JavaScript IS now
+   allowed, but only as hand-written vanilla progressive enhancement
+   shipped as a static asset (no framework, no bundler runtime, no JS
+   islands): every page MUST remain fully usable with JavaScript disabled
+   — all content readable, and every JS-wired feature has a working no-JS
+   path (e.g. the copy button falls back to click-to-select). JavaScript
+   never gates content. All dynamic/backend functionality remains out of
+   scope by design. 100% static prerendering is also an SEO requirement
+   (owner ruling 2026-11-10): every page ships as a real file in `dist/` —
+   verify with `find apps/web/dist -name '*.html'` after each build.
 5. **Skills are the content collection.** One Markdown file per skill in
    `src/content/skills/<slug>.md` (filename = route slug). Frontmatter
    contract (schema in `src/content.config.ts`): `name` (skill-loader name),
