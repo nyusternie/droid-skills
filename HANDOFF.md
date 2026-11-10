@@ -464,7 +464,44 @@ Clean composition with generous whitespace. No border, no shadow, no gradient, n
 - A manual theme TOGGLE remains a possible future enhancement (would
   ride rule 4's JS-as-enhancement allowance: media query as the no-JS
   default, a small script overriding via a data attribute). NOT shipped —
-  owner asked only for dark mode support.
+  owner asked only for dark mode support. (SHIPPED hours later — see the
+  next entry.)
+
+### 2026-11-10 — theme toggle shipped: light / dark / system, DEFAULTING TO SYSTEM (owner ruling)
+
+- **Owner ruling (2026-11-10, same evening as the dark-mode ship): add a
+  manual toggle with three states — "light", "dark", "system" — and
+  DEFAULT TO SYSTEM.** Shipped as the second enhancement script
+  `public/js/theme.js` (alongside copy.js) + a `theme-toggle` button in
+  the Base.astro header. Rule 4 parity holds exactly like copy.js: the
+  button renders `hidden`; the script reveals it, cycles
+  system → light → dark → system, and persists to localStorage
+  (`droidskills:theme`). No-JS: the button never appears and the page
+  follows the OS media query — the "system" state — fully usable.
+- **The dark-mode mechanism was RESTRUCTURED for this (same session).**
+  The pure-media-query approach's `dark:` variants (on six classes) were
+  WRONG for explicit-light-on-a-dark-OS (they would keep applying) — so
+  every raw-utility `dark:` variant was replaced by new theme tokens:
+  `--color-onbrand` (#0f172a, NEVER swaps — text on the always-bright
+  brand fill), `--color-onaccent` (white in light / #0f172a in dark —
+  text on the accent fill), `--color-muted`, `--color-surface`,
+  `--color-pre`, `--color-code-bg`, `--color-quote` (slate oklch values
+  copied verbatim from Tailwind's default palette — exact parity with the
+  raw utilities they replace). The `.btn`/`.copyblock-btn` pins from the
+  morning's ship are gone — `text-onbrand`/`text-onaccent` handle it.
+- **The dark swaps now live in exactly TWO gated, pixel-identical
+  blocks** (verified byte-for-byte identical in the compiled CSS): (1)
+  `@media (prefers-color-scheme: dark) { :root:not([data-theme]) }` —
+  SYSTEM; (2) `:root[data-theme="dark"]` — explicit dark. Explicit light
+  needs NO rules: the @theme values ARE light, and the
+  `:not([data-theme])` gate stops the system media query from
+  re-darkening. The hero-grid lift rides both gates
+  (`:root:not([data-theme]) .hero-grid` + `[data-theme="dark"]
+  .hero-grid`). Terminals unchanged (still slate-900, never swap).
+- Gates green in the same session: `pnpm check` 0 errors, `pnpm test`
+  8/8, `pnpm build` 7 pages + 3 SKILL.md; toggle button verified present
+  (and `hidden`) in all 7 built HTML pages, script order theme.js →
+  copy.js verified, theme.js verified in `dist/js/`.
 
 ## 4. Infrastructure (all steps verified as landed)
 

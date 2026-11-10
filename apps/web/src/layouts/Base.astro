@@ -1,8 +1,11 @@
 ---
 // src/layouts/Base.astro — sitewide shell: head meta (canonical, favicon),
 // header nav, footer. JavaScript is enhancement-only (AGENTS.md rule 4):
-// the single script, /js/copy.js, is a static asset loaded with `defer` —
-// it wires the copy buttons and every page works fully without it.
+// the two scripts (/js/theme.js — the light/dark/system theme toggle,
+// owner ruling 2026-11-10 — and /js/copy.js — the copy buttons) are
+// static assets loaded with `defer`; every page works fully without them
+// (system theme follows the OS media query, copy falls back to
+// click-to-select).
 // Page-specific JSON-LD is injected via the `schema` prop and MUST mirror
 // the visible copy.
 import '../styles/global.css'
@@ -34,7 +37,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
          2026-11-10): rel="describedby" points at the llms.txt file that
          covers this site. -->
     <link rel="describedby" href="/llms.txt" />
-    <!-- The one enhancement script (rule 4). defer = DOM ready at run -->
+    <!-- The enhancement scripts (rule 4). defer = DOM ready at run.
+         theme.js comes first so a saved explicit theme applies before
+         anything else touches the DOM. -->
+    <script src="/js/theme.js" defer></script>
     <script src="/js/copy.js" defer></script>
 
     <meta property="og:title" content={fullTitle} />
@@ -66,6 +72,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
           <a href="/SKILL.md" class="font-semibold no-underline">SKILL.md</a>
           <a href="/skills/" class="font-semibold no-underline">Skills</a>
           <a href="/about" class="font-semibold no-underline">About</a>
+          <!-- Theme toggle (owner ruling 2026-11-10: light / dark /
+               system, defaulting to system). hidden: /js/theme.js
+               reveals it and cycles the states, persisting to
+               localStorage. No-JS: the button never appears and the
+               system media query themes the page (rule 4 parity). -->
+          <button id="theme-toggle" class="theme-toggle" type="button" hidden>theme: system</button>
         </div>
       </nav>
     </header>

@@ -22,9 +22,11 @@ itself is TLD-agnostic (`droidskills`; owner ruling 2026-11-10).
 Brand: the green robot (`apps/web/public/favicon.svg`,
 `apps/web/src/components/Robot.astro`), Orbitron 800 display font
 (self-hosted woff2, SIL OFL 1.1 — `apps/web/public/fonts/Orbitron-OFL.txt`),
-Android green `#3ddc84` on cool paper, CSS-only animations, and ONE tiny
-enhancement script (`apps/web/public/js/copy.js` — one-click copy buttons;
-every page works with JavaScript disabled — AGENTS.md rule 4).
+Android green `#3ddc84` on cool paper, CSS-only animations, a light /
+dark / system theme toggle (owner ruling 2026-11-10, defaulting to
+system), and TWO tiny enhancement scripts (`apps/web/public/js/theme.js`
+— the theme toggle; `apps/web/public/js/copy.js` — one-click copy
+buttons; every page works with JavaScript disabled — AGENTS.md rule 4).
 
 ## Commands
 

@@ -101,9 +101,14 @@ email field anywhere on the site).
 - **Palette:** Android green `#3ddc84` (owner ruling 2026-11-09,
   family-shared with the siblings) on cool paper `#fafcff`; text-safe
   accent `#178247` (4.73:1 on paper); bright green is fills-only.
-  **Dark mode (added 2026-11-10):** pure CSS `prefers-color-scheme` in
-  `global.css` — a `:root` token swap + `dark:` variants on the raw
-  classes; zero JS, zero markup changes; terminals stay dark via
+  **Dark mode (added 2026-11-10):** a light / dark / system toggle
+  (owner ruling — DEFAULT SYSTEM) — the header button is wired by
+  `/js/theme.js` (enhancement-only: `hidden` without JS, choice persisted
+  to localStorage) and the whole theme is token swaps in two gated
+  blocks in `global.css`: `@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) }` for system + `:root[data-theme='dark']` for
+  explicit dark (explicit light needs no rules — the gate keeps the
+  system media query out). Zero markup changes; terminals stay dark via
   `slate-900` (= the same `#0f172a` as `ink`). See HANDOFF.md §3.
 
 ## Commands

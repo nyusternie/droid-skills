@@ -29,6 +29,23 @@
   --color-brand: #3ddc84;
   --color-accent: #178247;
   --color-line: #e2e8f0;
+  /* Dark-mode support (owner ruling 2026-11-10: a light / dark / system
+     toggle, DEFAULTING TO SYSTEM). These hold the LIGHT values; the dark
+     swaps live in the two gated override blocks at the bottom of this
+     file. The slate-* oklch values are copied verbatim from Tailwind's
+     default palette (node_modules/tailwindcss/theme.css) so the token
+     theme keeps exact parity with the raw utilities these replace.
+     --color-onbrand NEVER swaps: the brand fill stays bright #3ddc84 in
+     both themes, so the text on it stays dark. --color-onaccent tracks
+     the accent fill (dark green in light -> white text; bright green in
+     dark -> dark text). */
+  --color-onbrand: #0f172a;
+  --color-onaccent: #ffffff;
+  --color-muted: oklch(55.4% 0.046 257.417);
+  --color-surface: #ffffff;
+  --color-pre: oklch(98.4% 0.003 247.858);
+  --color-code-bg: oklch(96.8% 0.007 247.896);
+  --color-quote: oklch(44.6% 0.043 257.281);
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
@@ -51,23 +68,30 @@
     @apply mx-auto w-full max-w-3xl px-5;
   }
   .muted {
-    @apply text-slate-500 dark:text-slate-400;
+    @apply text-muted;
   }
   .btn {
-    @apply inline-block rounded-lg border border-brand bg-brand px-4 py-2 font-semibold text-ink no-underline transition-colors hover:border-accent hover:bg-accent hover:text-white;
+    @apply inline-block rounded-lg border border-brand bg-brand px-4 py-2 font-semibold text-onbrand no-underline transition-colors hover:border-accent hover:bg-accent hover:text-onaccent;
   }
   .btn-ghost {
-    @apply inline-block rounded-lg border border-line bg-white px-4 py-2 font-semibold text-accent no-underline transition-colors hover:border-accent dark:bg-slate-900;
+    @apply inline-block rounded-lg border border-line bg-surface px-4 py-2 font-semibold text-accent no-underline transition-colors hover:border-accent;
+  }
+  /* The header theme toggle (owner ruling 2026-11-10). Renders `hidden`
+     in the markup; /js/theme.js reveals it and cycles system -> light ->
+     dark -> system. No-JS users keep the system media query — the page
+     is fully usable, just not manually switched (rule 4 parity). */
+  .theme-toggle {
+    @apply cursor-pointer rounded-md border border-line bg-surface px-2 py-1 font-mono text-xs font-semibold text-muted transition-colors hover:border-accent hover:text-accent;
   }
   .card {
-    @apply rounded-xl border border-line bg-white p-5 dark:bg-slate-900;
+    @apply rounded-xl border border-line bg-surface p-5;
   }
   .kicker {
     @apply mb-2 text-sm font-bold tracking-widest text-accent uppercase;
   }
   /* Command/skill-file blocks — the product's aesthetic is the terminal. */
   .pre {
-    @apply my-4 overflow-x-auto rounded-lg border border-line bg-slate-50 p-4 font-mono text-sm dark:bg-slate-900;
+    @apply my-4 overflow-x-auto rounded-lg border border-line bg-pre p-4 font-mono text-sm;
   }
   /* The copiable command block (src/components/CopyBlock.astro) — dark
      terminal, brand-green command. JS on: the Copy button (revealed and
@@ -83,10 +107,10 @@
     @apply shrink-0 rounded border border-slate-600 px-2 py-1 text-[11px] font-semibold tracking-wide whitespace-nowrap text-slate-400 uppercase select-none;
   }
   .copyblock-btn {
-    @apply shrink-0 cursor-pointer rounded-md border border-brand bg-brand px-3 py-1.5 text-xs font-bold tracking-wide text-ink uppercase transition-colors select-none hover:border-accent hover:bg-accent hover:text-white;
+    @apply shrink-0 cursor-pointer rounded-md border border-brand bg-brand px-3 py-1.5 text-xs font-bold tracking-wide text-onbrand uppercase transition-colors select-none hover:border-accent hover:bg-accent hover:text-onaccent;
   }
   .copyblock-btn-copied {
-    @apply border-accent bg-accent text-white;
+    @apply border-accent bg-accent text-onaccent;
   }
   /* The header wordmark (owner ruling 2026-11-10: MUCH BIGGER title +
      icon, in the droid-ish display font). */
@@ -111,10 +135,10 @@
     @apply list-decimal;
   }
   .skill-body blockquote {
-    @apply my-4 border-l-4 border-brand pl-4 text-slate-600 italic dark:text-slate-400;
+    @apply my-4 border-l-4 border-brand pl-4 text-quote italic;
   }
   .skill-body code {
-    @apply rounded bg-slate-100 px-1 py-0.5 text-sm dark:bg-slate-800;
+    @apply rounded bg-code-bg px-1 py-0.5 text-sm;
   }
 
   /* ---- Landing-page graphics + CSS-only animation (owner ruling
@@ -230,40 +254,62 @@
   }
 }
 
-/* Dark mode (owner request 2026-11-10): pure CSS prefers-color-scheme —
-   zero JS, zero markup changes, fully usable with scripts disabled
-   (rule 4). This block is UNLAYERED so every rule beats the layered
-   light defaults whenever the media query matches. The :root swap
-   re-themes every token utility (bg-paper, text-ink, text-accent,
-   border-line, …) in one move; the button rules protect the fixed pair
-   dark-text-on-green-fill (bright #3ddc84 stays the fill in dark mode,
-   so the text stays #0f172a); the hero grid is lifted from accent-green
-   to brand-green so it stays visible on the dark page. The always-dark
-   terminal surfaces (.copyblock/.term) need nothing here — they moved
-   to slate-900, which equals the old ink in light mode and never
-   follows the swap. */
+/* Dark theme (owner ruling 2026-11-10: a light / dark / system toggle,
+   DEFAULTING TO SYSTEM). Zero markup changes — the entire theme is token
+   swaps applied in exactly two places, gated so an explicit choice always
+   wins over the OS:
+     1. SYSTEM (no data-theme attribute — the default, and the only state
+        reachable without JavaScript): follow prefers-color-scheme.
+     2. EXPLICIT DARK: [data-theme="dark"] (set by /js/theme.js).
+   Explicit light ([data-theme="light"]) needs NO rules of its own: the
+   @theme values ARE light, and the :not([data-theme]) gate keeps the
+   system media query from re-darkening the page. Both blocks are
+   UNLAYERED so they beat the layered light defaults; the token lists are
+   identical, keeping the two dark paths pixel-identical. The hero-grid
+   lines lift from accent-green to brand-green 8% so the blueprint stays
+   visible on the dark page. The always-dark terminal surfaces
+   (.copyblock/.term and their slate-* internals) need nothing here —
+   they sit on slate-900, which equals the old ink in light mode and
+   never follows the swap. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --color-ink: #e6edf5;
     --color-paper: #070d16;
     --color-accent: #3ddc84;
     --color-line: #1e293b;
+    --color-onaccent: #0f172a;
+    --color-muted: oklch(70.4% 0.04 256.788);
+    --color-surface: oklch(20.8% 0.042 265.755);
+    --color-pre: oklch(20.8% 0.042 265.755);
+    --color-code-bg: oklch(27.9% 0.041 260.031);
+    --color-quote: oklch(70.4% 0.04 256.788);
     color-scheme: dark;
   }
-  .btn,
-  .copyblock-btn {
-    color: #0f172a;
-  }
-  .btn:hover,
-  .copyblock-btn:hover,
-  .copyblock-btn-copied {
-    color: #0f172a;
-  }
-  .hero-grid {
+  :root:not([data-theme]) .hero-grid {
     background-image:
       linear-gradient(to right, rgb(61 220 132 / 0.08) 1px, transparent 1px),
       linear-gradient(to bottom, rgb(61 220 132 / 0.08) 1px, transparent 1px);
   }
+}
+
+:root[data-theme='dark'] {
+  --color-ink: #e6edf5;
+  --color-paper: #070d16;
+  --color-accent: #3ddc84;
+  --color-line: #1e293b;
+  --color-onaccent: #0f172a;
+  --color-muted: oklch(70.4% 0.04 256.788);
+  --color-surface: oklch(20.8% 0.042 265.755);
+  --color-pre: oklch(20.8% 0.042 265.755);
+  --color-code-bg: oklch(27.9% 0.041 260.031);
+  --color-quote: oklch(70.4% 0.04 256.788);
+  color-scheme: dark;
+}
+
+:root[data-theme='dark'] .hero-grid {
+  background-image:
+    linear-gradient(to right, rgb(61 220 132 / 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(61 220 132 / 0.08) 1px, transparent 1px);
 }
 
 @keyframes robot-bob {
