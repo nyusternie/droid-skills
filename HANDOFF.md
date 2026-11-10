@@ -9,22 +9,31 @@ explains WHY things are the way they are.
 
 ---
 
-## 1. Live state — PENDING (initial push, pre-DNS)
+## 1. Live state (verified 2026-11-10 UTC, all via `curl --resolve` against
+Cloudflare edge 172.66.47.121 — never trust the dev-box resolver for fresh
+DNS)
 
-- Repo: `git@github.com:nyusternie/droidskills.git` (private, branch
-  `master`) — created and pushed 2026-11-09. (GitHub's new-repo default is
-  `main`; renamed to `master` per family convention.)
-- CI: runs on the self-hosted runner `blackhost-ds` (blackhost VPS —
-  GitHub-hosted runners are billing-locked at the account level). First
-  pipeline result: see §4.
-- Cloudflare: zone `droidskills.dev` ACTIVE (verified 2026-11-09); Pages
-  project `droidskills` (production branch `master`); subdomain
-  `droidskills.pages.dev` — CLEAN, unsquatted (no stranger collision,
-  unlike both siblings).
-- Three skills live in the collection: `adb`, `android-versions`, `logcat`
-  (owner ruling 2026-11-09). Root `public/SKILL.md` + `public/llms.txt`
-  list exactly those three.
-- Domain attach + `curl --resolve` verification: pending (§4).
+- Repo: `git@github.com:nyusternie/droidskills.git` (private, SSH; branch
+  `master`; the repo pre-existed from the owner's registration with
+  GitHub-default `main`, renamed to `master` 2026-11-09 — same pattern as
+  the siblings).
+- CI: self-hosted runner `blackhost-ds` (blackhost VPS, labels
+  `self-hosted,Linux,X64,blackhost` — the workflow's `runs-on:
+  [self-hosted, blackhost]` REQUIRES the `blackhost` label; §4). First
+  pipeline (initial commit): both jobs green after one rerun (§4, the
+  secrets-snapshot lesson).
+- Cloudflare: zone `droidskills.dev` ACTIVE (id
+  0b60065d403645711acf61917c5468dd); Pages project `droidskills`
+  (production branch `master`); subdomain `droidskills.pages.dev` — CLEAN,
+  unsquatted. Both custom domains `status=active`.
+- Routes verified (all 200): `/`, `/about/`, `/adb/`, `/android-versions/`,
+  `/logcat/`, `/robots.txt`, the `www` host — plus the product itself:
+  `/SKILL.md` and all three `/<skill>/SKILL.md` served as
+  `text/markdown; charset=utf-8`, `/llms.txt` as `text/plain` (the
+  `_headers` rules work). Three skills live (owner ruling 2026-11-09):
+  `adb`, `android-versions`, `logcat`.
+- Secrets set 2026-11-10 (write-only): `CLOUDFLARE_API_TOKEN`,
+  `CLOUDFLARE_ACCOUNT_ID`.
 
 ## 2. Day-2 ops
 
@@ -53,7 +62,8 @@ explains WHY things are the way they are.
   `onlyBuiltDependencies: [esbuild]`; the workflow pins the runner's
   pnpm store-dir (`/home/gh-runner/pnpm-store/ds`); runner clones must
   exclude `.runner`, `.credentials*`, `_work`, `.runner_migrated`, `.env`,
-  `.path`.
+  `.path`, must carry REAL `bin.<ver>`/`externals.<ver>` dirs with in-root
+  symlinks, and must be registered with the `blackhost` label (§4).
 - **Cloudflare API:** all calls from blackhost with the vaulted env file
   (`/root/.cloudflare/rootmyandroid.env`). Verify `cfat_` tokens ONLY at
   `GET /accounts/{account_id}/tokens/verify` — the user-scoped endpoint
@@ -135,25 +145,53 @@ from alternate-format to first-class product.
   `pnpm build` 6 pages + 3 SKILL.md endpoints; emitted HTML carries ZERO
   external `<a href="http…">` anchors (policy satisfied by construction).
 
-## 4. Infrastructure — PENDING
+## 4. Infrastructure (all steps verified as landed)
 
-Planned (each step verified as it lands; this section is updated after):
-
-1. GitHub repo creation + initial push (this commit).
-2. Self-hosted runner `blackhost-ds` cloned from the `web` instance with
-   the corrected exclude list (`.runner`, `.credentials*`, `_work`,
-   `.runner_migrated`, `.env`, `.path` — the androidharness crash-loop
-   gotcha, applied preemptively).
-3. CI secrets: `CLOUDFLARE_API_TOKEN` + `CLOUDFLARE_ACCOUNT_ID` (from the
-   blackhost vault, piped through SSH since `gh` is not installed there).
-4. First pipeline green on both jobs.
-5. Domain attach: CNAMEs `droidskills.dev` + `www` → `droidskills.pages.dev`
-   (proxied), Pages domain validation (expect the "error in response body
-   but background job succeeds" quirk — PATCH-retry pattern), poll to
-   `status=active`.
-6. `curl --resolve` live verification of every route: `/`, `/SKILL.md`,
-   `/<skill>/`, `/<skill>/SKILL.md` ×3, `/llms.txt`, `/about/`, `/robots.txt`,
-   `www` host, plus content-type checks on the skill files.
+1. GitHub repo push (initial commit, 2026-11-09).
+2. Self-hosted runner `blackhost-ds`, cloned from the `web` instance.
+   **This build hit and fixed the REAL root cause behind the
+   androidharness clone's crash-loop gotcha — and it is bigger than the
+   sibling doc recorded:**
+   - A runner clone must contain the REAL versioned binaries:
+     `bin.<ver>/` and `externals.<ver>/` are real directories inside each
+     runner root (created by self-update); `bin` and `externals` are
+     symlinks that must point INSIDE the clone's own root. NEVER symlink a
+     clone's `bin` across runner roots: .NET resolves the assembly's
+     physical path, so the listener reads/writes the SOURCE runner's
+     config state — `config.sh remove`/`configure` then collide with it
+     ("already configured", "Uninstall service first", "A session for this
+     runner already exists"). Fix: `cp -a bin.<ver> externals.<ver>` into
+     the clone and `ln -sfn bin.<ver> bin` (same for externals).
+   - `config.sh` as root needs `RUNNER_ALLOW_RUNASROOT=1` (not set
+     globally on blackhost; the wrapper exits "Must not run with sudo").
+   - Unwind order for a failed setup: `svc.sh stop` → `svc.sh uninstall`
+     → `config.sh remove --token …` (remove REFUSES while its own service
+     record exists; the `.service`/`.env`/`.path` files it checks are
+     svc.sh/config.sh artifacts recreated by every attempt — delete them
+     manually if the normal unwind desynced).
+   - `svc.sh` itself embeds the source runner's identity: re-brand BOTH
+     `SVC_NAME` and `SVC_DESCRIPTION` lines (and `runsvc.sh`'s path/name)
+     — otherwise status/install operate on the source runner's service.
+   - The rsync exclude list from the androidharness doc
+     (`.runner`, `.credentials*`, `_work`, `.runner_migrated`, `.env`,
+     `.path`) stays valid; `env.sh`, `runsvc.sh`, `config.sh`, `svc.sh`
+     are rsync'd and re-branded as above.
+   - Register with labels `self-hosted,Linux,X64,blackhost` — without
+     `blackhost` the runner comes online but never picks up jobs
+     (`runs-on` matches labels only).
+3. CI secrets from the blackhost vault via SSH pipe. **New lesson:**
+   secrets are snapshotted at workflow-RUN creation time — a run created
+   BEFORE the secrets existed fails its deploy with "necessary to set a
+   CLOUDFLARE_API_TOKEN environment variable" even after the secrets are
+   set; `gh run rerun --failed` refreshes the snapshot (verified: rerun
+   green 2026-11-10). Prefer setting secrets BEFORE the first push.
+4. Domain attach: CNAMEs `droidskills.dev` + `www` →
+   `droidskills.pages.dev` (proxied); POST /domains both → stuck
+   `pending/pending`; the PATCH-retry kicked the background job — the
+   response body says "error" while polling shows `active/active` seconds
+   later (the exact sibling quirk, third time observed).
+5. `curl --resolve` live verification of every route + content-type
+   (§1) — all green.
 
 ## 5. Follow-ups (next-session queue)
 
