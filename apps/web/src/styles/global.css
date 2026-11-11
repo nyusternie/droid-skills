@@ -83,6 +83,25 @@
   .theme-toggle {
     @apply cursor-pointer rounded-md border border-line bg-surface px-2 py-1 font-mono text-xs font-semibold text-muted transition-colors hover:border-accent hover:text-accent;
   }
+  /* The theme picker menu (owner ruling 2026-11-11: click the icon
+     button to open Light / Dark / System choices). The active option's
+     visuals are driven PURELY by the aria-checked attribute — theme.js
+     sets it, CSS styles it. */
+  .theme-menu {
+    @apply absolute top-full right-0 z-50 mt-2 flex w-40 flex-col gap-0.5 rounded-lg border border-line bg-surface p-1.5 shadow-lg;
+  }
+  .theme-option {
+    @apply flex w-full cursor-pointer items-center gap-2 rounded-md px-2.5 py-1.5 text-sm font-semibold text-ink transition-colors hover:bg-pre;
+  }
+  .theme-option[aria-checked='true'] {
+    @apply text-accent;
+  }
+  .theme-option-check {
+    @apply invisible ml-auto;
+  }
+  .theme-option[aria-checked='true'] .theme-option-check {
+    @apply visible;
+  }
   /* The GitHub mark link (owner ruling 2026-11-10: icon-only, footer).
      Circular icon button; fill=currentColor follows the theme. */
   .gh-link {
