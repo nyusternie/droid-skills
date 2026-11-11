@@ -83,6 +83,11 @@
   .theme-toggle {
     @apply cursor-pointer rounded-md border border-line bg-surface px-2 py-1 font-mono text-xs font-semibold text-muted transition-colors hover:border-accent hover:text-accent;
   }
+  /* The GitHub mark link (owner ruling 2026-11-10: icon-only, footer).
+     Circular icon button; fill=currentColor follows the theme. */
+  .gh-link {
+    @apply inline-flex items-center justify-center rounded-full border border-line bg-surface p-2 text-muted no-underline transition-colors hover:border-accent hover:text-accent;
+  }
   .card {
     @apply rounded-xl border border-line bg-surface p-5;
   }

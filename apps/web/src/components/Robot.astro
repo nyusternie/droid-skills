@@ -5,7 +5,9 @@
 // global.css — the animations stay CSS-only (AGENTS.md rule 4).
 // Nerdy round GLASSES added 2026-11-10 (owner ruling: nerdy persona,
 // knowledge-legend vibes) — the glasses are static; only the eyes blink
-// behind them.
+// behind them. Same day: face reshaped to the official-Android-style
+// DOME (semicircle top, flat base) — kept unique via the glasses + smile
+// (owner ruling: closer to the official logo, NOT infringing).
 interface Props {
   class?: string
   animated?: boolean
@@ -21,15 +23,15 @@ const { class: className = 'h-8 w-8', animated = false } = Astro.props
   role="img"
   aria-label="The Droid Skills robot"
 >
-  <path class="robot-antenna" d="M21 18 14 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
-  <path class="robot-antenna" d="M43 18 50 6" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
-  <rect x="8" y="16" width="48" height="40" rx="14" fill="#3ddc84" />
-  <circle class="robot-eye" cx="23" cy="34" r="5" fill="#0f172a" />
-  <circle class="robot-eye" cx="41" cy="34" r="5" fill="#0f172a" />
-  <circle cx="23" cy="34" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
-  <circle cx="41" cy="34" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
-  <path d="M31 34h2" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
-  <path d="M8 34h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
-  <path d="M49 34h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
-  <path d="M25 45h14" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
+  <path class="robot-antenna" d="M22 16 15 4" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
+  <path class="robot-antenna" d="M42 16 49 4" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
+  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill="#3ddc84" />
+  <circle class="robot-eye" cx="23" cy="38" r="5" fill="#0f172a" />
+  <circle class="robot-eye" cx="41" cy="38" r="5" fill="#0f172a" />
+  <circle cx="23" cy="38" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
+  <circle cx="41" cy="38" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
+  <path d="M31 38h2" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+  <path d="M8 38h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+  <path d="M49 38h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
+  <path d="M25 49h14" fill="none" stroke="#0f172a" stroke-width="4" stroke-linecap="round" />
 </svg>

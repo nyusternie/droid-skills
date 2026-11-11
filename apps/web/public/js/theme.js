@@ -1,5 +1,6 @@
-// public/js/theme.js — the light / dark / system theme toggle (owner
-// ruling 2026-11-10: three states, DEFAULTING TO SYSTEM). One of two
+// public/js/theme.js — the light / dark / system theme ICON selector
+// (owner ruling 2026-11-10: three states, DEFAULTING TO SYSTEM; icons
+// instead of a text label — second ruling same day). One of two
 // enhancement scripts on the site (the other is copy.js) — hand-written
 // vanilla progressive enhancement shipped as a static asset (AGENTS.md
 // rule 4): the toggle renders `hidden` in Base.astro; this script
@@ -32,10 +33,22 @@
     }
   }
 
+  // Icon swap (owner ruling 2026-11-10: ICON selector, no text label):
+  // the button carries three inline SVGs marked data-theme-icon; exactly
+  // the active state's icon is unhidden. aria-label still names the state
+  // in words so screen readers lose nothing.
+  const LABELS = {
+    system: 'Theme: system. Activate to switch to light mode.',
+    light: 'Theme: light. Activate to switch to dark mode.',
+    dark: 'Theme: dark. Activate to switch to system mode.',
+  }
   const apply = (state) => {
     if (state === 'system') root.removeAttribute('data-theme')
     else root.setAttribute('data-theme', state)
-    toggle.textContent = `theme: ${state}`
+    for (const icon of toggle.querySelectorAll('[data-theme-icon]')) {
+      icon.hidden = icon.dataset.themeIcon !== state
+    }
+    toggle.setAttribute('aria-label', LABELS[state])
     toggle.setAttribute('aria-pressed', state === 'system' ? 'false' : 'true')
   }
 
