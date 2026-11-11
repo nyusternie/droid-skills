@@ -31,11 +31,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <!-- ?v=2 cache-buster: browsers cache favicons far beyond normal
+    <!-- ?v=3 cache-buster: browsers cache favicons far beyond normal
          asset caching, so the version param forces a re-fetch when the
-         mark changes (v2 = nerdy-glasses robot, 2026-11-10). Bump the
+         mark changes (v3 = pseudo-3D robot, 2026-11-11). Bump the
          number on any future mark change. -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <!-- llms.txt v2 recommendation (verified from llmstxt.org, retrieved
          2026-11-10): rel="describedby" points at the llms.txt file that
@@ -44,7 +44,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
     <!-- The enhancement scripts (rule 4). defer = DOM ready at run.
          theme.js comes first so a saved explicit theme applies before
          anything else touches the DOM. -->
-    <script src="/js/theme.js" defer></script>
+    <!-- ?v=N cache-busters on the scripts too (owner report 2026-11-11:
+         a stale cached theme.js kept serving the OLD theme cycler after
+         the picker shipped). Bump the version whenever the file changes. -->
+    <script src="/js/theme.js?v=2" defer></script>
     <script src="/js/copy.js" defer></script>
 
     <meta property="og:title" content={fullTitle} />
@@ -70,7 +73,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site)
       <nav class="container flex flex-wrap items-center justify-between gap-x-4 gap-y-2 py-4">
         <a href="/" class="wordmark">
           <Robot class="h-10 w-10 sm:h-12 sm:w-12" />
-          Droid <span class="text-accent">SKILL</span>s
+          <!-- The wordmark text is wrapped in ONE span so .wordmark's
+               flex gap lands between the robot and the text as a whole —
+               without it the trailing "s" becomes its own flex item and
+               reads as "SKILL s" (owner report 2026-11-11). The accent
+               span is a pure color highlight, no spacing. -->
+          <span>Droid <span class="text-accent">SKILL</span>s</span>
         </a>
         <div class="flex items-center gap-5">
           <a href="/SKILL.md" class="font-semibold no-underline">SKILL.md</a>

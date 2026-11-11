@@ -8,12 +8,22 @@
 // behind them. Same day: face reshaped to the official-Android-style
 // DOME (semicircle top, flat base) — kept unique via the glasses + smile
 // (owner ruling: closer to the official logo, NOT infringing).
+// 2026-11-11: pseudo-3D shading (owner ruling: "go with 3D") — pure SVG
+// gradients lit from the upper LEFT: a 3-stop body gradient, a white
+// radial sheen, a bottom inner shade, white glints in the eyes, and
+// shine arcs on the lenses. Still zero JavaScript.
+// The <defs> block sits AFTER the two antenna paths on purpose:
+// global.css staggers the antenna wiggle with :nth-child(2), so the
+// antennae must stay children 1 and 2 of the svg.
+// Gradient ids are prefixed per instance (uid) — the mark can render
+// several times on one page and duplicate ids would collide.
 interface Props {
   class?: string
   animated?: boolean
 }
 
 const { class: className = 'h-8 w-8', animated = false } = Astro.props
+const uid = Math.random().toString(36).slice(2, 8)
 ---
 
 <svg
@@ -23,13 +33,39 @@ const { class: className = 'h-8 w-8', animated = false } = Astro.props
   role="img"
   aria-label="The Droid Skills robot"
 >
-  <path class="robot-antenna" d="M22 16 15 4" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
-  <path class="robot-antenna" d="M42 16 49 4" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round" />
-  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill="#3ddc84" />
-  <circle class="robot-eye" cx="23" cy="38" r="5" fill="#0f172a" />
-  <circle class="robot-eye" cx="41" cy="38" r="5" fill="#0f172a" />
+  <path class="robot-antenna" d="M22 16 15 4" fill="none" stroke={`url(#${uid}-body)`} stroke-width="5" stroke-linecap="round" />
+  <path class="robot-antenna" d="M42 16 49 4" fill="none" stroke={`url(#${uid}-body)`} stroke-width="5" stroke-linecap="round" />
+  <defs>
+    <linearGradient id={`${uid}-body`} x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0" stop-color="#6ff0a8" />
+      <stop offset="0.45" stop-color="#3ddc84" />
+      <stop offset="1" stop-color="#22b76a" />
+    </linearGradient>
+    <radialGradient id={`${uid}-sheen`} cx="0.32" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.5" />
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.12" />
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id={`${uid}-shade`} x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0.55" stop-color="#178247" stop-opacity="0" />
+      <stop offset="1" stop-color="#178247" stop-opacity="0.45" />
+    </linearGradient>
+  </defs>
+  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill={`url(#${uid}-body)`} />
+  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill={`url(#${uid}-sheen)`} />
+  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill={`url(#${uid}-shade)`} />
+  <g class="robot-eye">
+    <circle cx="23" cy="38" r="5" fill="#0f172a" />
+    <circle cx="21.4" cy="36.3" r="1.5" fill="#ffffff" opacity="0.9" />
+  </g>
+  <g class="robot-eye">
+    <circle cx="41" cy="38" r="5" fill="#0f172a" />
+    <circle cx="39.4" cy="36.3" r="1.5" fill="#ffffff" opacity="0.9" />
+  </g>
   <circle cx="23" cy="38" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
   <circle cx="41" cy="38" r="8" fill="none" stroke="#0f172a" stroke-width="3" />
+  <path d="M15.5 35.3A8 8 0 0 1 20.3 30.7" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" />
+  <path d="M33.5 35.3A8 8 0 0 1 38.3 30.7" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" />
   <path d="M31 38h2" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
   <path d="M8 38h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />
   <path d="M49 38h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round" />

@@ -4,15 +4,41 @@
        sides, flat base, stub antennae), made unique by the nerdy round
        GLASSES + small smile so it does not infringe (owner ruling
        2026-11-10: closer to the official logo but keep it unique).
-       Android green #3ddc84 on ink. Same geometry as
-       src/components/Robot.astro. -->
-  <path d="M22 16 15 4" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round"/>
-  <path d="M42 16 49 4" fill="none" stroke="#3ddc84" stroke-width="5" stroke-linecap="round"/>
-  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill="#3ddc84"/>
+       2026-11-11: pseudo-3D shading (owner ruling: "go with 3D") —
+       pure SVG gradients lit from the upper LEFT: 3-stop body
+       gradient, white radial sheen, bottom inner shade, eye glints,
+       lens shine arcs. Android green #3ddc84 on ink. Same geometry
+       as src/components/Robot.astro (gradient ids here use the fixed
+       "fav" prefix — standalone file, no collision risk). -->
+  <defs>
+    <linearGradient id="fav-body" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0" stop-color="#6ff0a8"/>
+      <stop offset="0.45" stop-color="#3ddc84"/>
+      <stop offset="1" stop-color="#22b76a"/>
+    </linearGradient>
+    <radialGradient id="fav-sheen" cx="0.32" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
+      <stop offset="0.55" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fav-shade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0.55" stop-color="#178247" stop-opacity="0"/>
+      <stop offset="1" stop-color="#178247" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+  <path d="M22 16 15 4" fill="none" stroke="url(#fav-body)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M42 16 49 4" fill="none" stroke="url(#fav-body)" stroke-width="5" stroke-linecap="round"/>
+  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill="url(#fav-body)"/>
+  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill="url(#fav-sheen)"/>
+  <path d="M8 56V36a24 24 0 0 1 48 0v20Z" fill="url(#fav-shade)"/>
   <circle cx="23" cy="38" r="5" fill="#0f172a"/>
+  <circle cx="21.4" cy="36.3" r="1.5" fill="#ffffff" opacity="0.9"/>
   <circle cx="41" cy="38" r="5" fill="#0f172a"/>
+  <circle cx="39.4" cy="36.3" r="1.5" fill="#ffffff" opacity="0.9"/>
   <circle cx="23" cy="38" r="8" fill="none" stroke="#0f172a" stroke-width="3"/>
   <circle cx="41" cy="38" r="8" fill="none" stroke="#0f172a" stroke-width="3"/>
+  <path d="M15.5 35.3A8 8 0 0 1 20.3 30.7" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M33.5 35.3A8 8 0 0 1 38.3 30.7" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round"/>
   <path d="M31 38h2" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
   <path d="M8 38h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
   <path d="M49 38h7" fill="none" stroke="#0f172a" stroke-width="3" stroke-linecap="round"/>
