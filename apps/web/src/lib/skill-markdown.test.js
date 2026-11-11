@@ -15,6 +15,7 @@ describe('buildSkillMarkdown', () => {
       '---\n' +
         'name: "adb"\n' +
         'description: "Use when a task involves ADB."\n' +
+        'license: CC0-1.0\n' +
         '---\n\n' +
         '# ADB\n\nDrive the bridge.\n',
     )
@@ -27,6 +28,11 @@ describe('buildSkillMarkdown', () => {
       body: 'body',
     })
     expect(out).toContain('description: "Use when reading logs: capture, filter, triage."')
+  })
+
+  it('always emits the site-wide CC0-1.0 license (spec optional field)', () => {
+    const out = buildSkillMarkdown({ name: 'x', description: 'long enough', body: 'body' })
+    expect(out).toContain('license: CC0-1.0')
   })
 
   it('normalizes trailing body whitespace to exactly one newline', () => {

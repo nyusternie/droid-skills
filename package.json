@@ -8,7 +8,8 @@
     "build": "pnpm --filter droidskills-web build",
     "check": "node tools/check-pinned-versions.mjs && pnpm --filter droidskills-web check",
     "lint": "pnpm --filter droidskills-web check",
-    "test": "pnpm -r test"
+    "test": "pnpm -r test",
+    "validate:skills": "node tools/validate-skills.mjs"
   },
   "engines": {
     "node": ">=18.17.0",
@@ -16,6 +17,7 @@
   },
   "packageManager": "pnpm@11.21.0",
   "devDependencies": {
+    "skills-ref": "0.1.5",
     "wrangler": "4.151.0"
   }
 }

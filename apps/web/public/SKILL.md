@@ -1,6 +1,7 @@
 ---
 name: droidskills
 description: Use when a request involves Android — building, testing, debugging, inspecting, or reverse-engineering Android apps and devices. Covers ADB (USB and wireless pairing, authorization, read-only inspection), the Android version and API-level landscape (current release, version mapping, minSdkVersion and targetSdkVersion), and log capture and triage with logcat. Includes topics such as platform-tools, USB debugging authorization, getprop device facts, behavior-change gates, logcat filters and buffers, and crash-dump triage.
+license: CC0-1.0
 ---
 
 # Droid Skills — the missing knowledge between AI agents and production Android.

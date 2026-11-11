@@ -1,4 +1,4 @@
-# .github/workflows/web.yml — check → test:coverage → build → deploy gate.
+# .github/workflows/web.yml — check → test:coverage → build → validate:skills → deploy gate.
 # Mirrors the rootmyandroid repo's pipeline, with two deliberate deviations
 # (see HANDOFF.md): runs on the self-hosted blackhost runner (the account is
 # billing-locked for GitHub-hosted runners — verified 2026-11-09), and no
@@ -49,6 +49,13 @@ jobs:
 
       - name: Build (static export)
         run: pnpm --filter droidskills-web build
+
+      # Validates the dist/ SKILL.md files agents actually fetch, using
+      # the spec's official reference validator (agentskills.io
+      # specification, added 2026-11-11). Runs on the built output, so it
+      # must stay AFTER the Build step.
+      - name: Validate skills (skills-ref)
+        run: pnpm validate:skills
 
   deploy:
     name: Deploy to Cloudflare Pages
