@@ -80,8 +80,21 @@
      in the markup; /js/theme.js reveals it and cycles system -> light ->
      dark -> system. No-JS users keep the system media query — the page
      is fully usable, just not manually switched (rule 4 parity). */
+  /* The header theme button is ICON-ONLY (owner ruling 2026-11-11: just
+     the icon, NO text in the header — text labels live in the
+     drop-down menu only). The font-mono/text-xs/font-semibold classes
+     from the 2026-11-10 text-label version were dead code; text-muted
+     STAYS because the icons stroke currentColor (it IS the icon color,
+     and hover:text-accent drives the hover accent).
+     The svg[hidden] guard is belt-and-braces for the SVGElement gotcha
+     documented in theme.js: guarantee the hidden content attribute
+     display:nones the inactive icons even if a UA stylesheet ever stops
+     covering inline SVG. */
   .theme-toggle {
-    @apply cursor-pointer rounded-md border border-line bg-surface px-2 py-1 font-mono text-xs font-semibold text-muted transition-colors hover:border-accent hover:text-accent;
+    @apply cursor-pointer rounded-md border border-line bg-surface px-2 py-1 text-muted transition-colors hover:border-accent hover:text-accent;
+  }
+  .theme-toggle svg[hidden] {
+    @apply hidden;
   }
   /* The theme picker menu (owner ruling 2026-11-11: click the icon
      button to open Light / Dark / System choices). The active option's

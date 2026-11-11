@@ -52,7 +52,14 @@
     if (state === 'system') root.removeAttribute('data-theme')
     else root.setAttribute('data-theme', state)
     for (const icon of toggle.querySelectorAll('[data-theme-icon]')) {
-      icon.hidden = icon.dataset.themeIcon !== state
+      // SVGElement GOTCHA (owner report 2026-11-11 — the button showed
+      // ALL THREE icons at once): SVG elements have NO .hidden DOM
+      // property, so assigning it creates an inert expando and hides
+      // nothing. The hidden CONTENT attribute is what display:nones an
+      // inline SVG ([hidden]{display:none} covers it), so set/remove
+      // the attribute itself.
+      if (icon.dataset.themeIcon === state) icon.removeAttribute('hidden')
+      else icon.setAttribute('hidden', '')
     }
     toggle.setAttribute('aria-label', LABELS[state])
     for (const option of menu.querySelectorAll('[data-theme-value]')) {
