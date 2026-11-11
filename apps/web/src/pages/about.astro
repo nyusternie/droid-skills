@@ -47,13 +47,43 @@ import Base from '../layouts/Base.astro'
           them to your own agents.
         </li>
       </ol>
+      <h2>The specification</h2>
+      <p>
+        The served files follow the Agent Skills specification (agentskills.io/specification,
+        reviewed 2026-11-11): YAML frontmatter (<code>name</code>, <code>description</code>)
+        followed by a Markdown body. Verified points of compliance: the <code>name</code> of
+        every skill matches the URL directory it is served from; <code>description</code> is the
+        "Use when…" trigger, well under the 1024-character limit; the optional
+        <code>license</code> field (<code>CC0-1.0</code>) is emitted on every file; and every
+        file sits far under the spec's 500-line body guidance. Two deviations are deliberate:
+        skills are served as single files — the spec's stated minimum — rather than directories
+        with <code>scripts/</code>, <code>references/</code>, and <code>assets/</code>, because
+        there is nothing to execute or bundle; and cross-skill references use absolute own-host
+        URLs instead of relative paths, because a fetched file cannot rely on sibling files
+        sitting beside it.
+      </p>
+      <h2>Sources</h2>
+      <p>
+        Facts are verified against primary sources only — the official Android documentation at
+        developer.android.com and the AOSP source tree at android.googlesource.com — named in
+        plain text with the retrieval date, never linked. A fact that cannot be verified renders
+        as unknown, or is omitted with a pointer to the command that checks it live.
+      </p>
+      <h2>Tooling</h2>
+      <p>
+        Every deploy is gated on: a type-check (<code>astro check</code>), fixture tests that
+        pin the exact served frontmatter shape, a pinned-dependency audit, a full static build,
+        and the specification's official reference validator (<code>skills-ref</code>) run
+        against the built files agents actually fetch. Any failure blocks the deploy.
+      </p>
       <h2>What is not here</h2>
       <p>
         No accounts, no email addresses, no forms, no tracking, no ads (owner ruling
         2026-11-09: no email package — this satellite has no funnel at all). Sources are named in
-        plain text, not linked — an agent that can read the page can find the source. The one
-        JavaScript file on the site is a small enhancement script (one-click copy); every page
-        works fully with JavaScript disabled (owner ruling 2026-11-10 — rule 4).
+        plain text, not linked — an agent that can read the page can find the source. The two
+        JavaScript files on the site are small enhancement scripts (one-click copy; a light /
+        dark / system theme selector); every page works fully with JavaScript disabled (owner
+        ruling 2026-11-10 — rule 4).
       </p>
     </div>
   </section>
